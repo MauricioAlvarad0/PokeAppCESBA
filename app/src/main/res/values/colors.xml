@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores base de la PokéApp -->
+    <color name="poke_bg_dark">#0F172A</color>
+    <color name="poke_bg_light">#F8FAFC</color>
+    <color name="poke_card">#FFFFFF</color>
+    <color name="poke_text_main">#1E293B</color>
+    <color name="poke_text_sub">#64748B</color>
+    <color name="poke_primary">#2563EB</color>
+
+    <!-- Colores de módulos y stats -->
+    <color name="poke_red">#EF4444</color>
+    <color name="poke_orange">#F97316</color>
+    <color name="poke_green">#10B981</color>
+    <color name="poke_yellow">#EAB308</color>
+    <color name="poke_purple">#8B5CF6</color>
+</resources>
