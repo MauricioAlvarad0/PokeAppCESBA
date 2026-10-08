@@ -17,7 +17,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#AA000000" />
+        android:background="#22000000" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -63,6 +63,31 @@
                         android:textColor="#0A192F"
                         android:textSize="24sp"
                         android:textStyle="bold" />
+
+                    <!-- Caja de Nombre (Para Registro) -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutName"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:textColorHint="#64748B"
+                        android:visibility="gone"
+                        app:boxStrokeColor="#2563EB"
+                        app:hintTextColor="#2563EB"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Nombre de Entrenador"
+                            android:textColor="#1E293B"
+                            android:textColorHint="#9CA3AF"
+                            android:inputType="textPersonName" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Caja de Correo -->
                     <com.google.android.material.textfield.TextInputLayout

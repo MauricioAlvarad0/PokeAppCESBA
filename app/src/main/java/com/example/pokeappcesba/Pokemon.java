@@ -13,6 +13,16 @@ public class Pokemon {
     public List<AbilitySlot> abilities;
     public List<StatSlot> stats;
     public Cries cries;
+    public List<MoveSlot> moves;
+
+    public static class MoveSlot {
+        public MoveDetail move;
+    }
+
+    public static class MoveDetail {
+        public String name;
+        public String url;
+    }
 
     public static class TypeSlot {
         public TypeDetail type;

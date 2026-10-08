@@ -1,6 +1,8 @@
 package com.example.pokeappcesba;
 
 import android.annotation.SuppressLint;
+import java.util.Map;
+import android.widget.LinearLayout;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -42,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Grid Menu Buttons
         findViewById(R.id.btnMenuPokedex).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PokedexActivity.class)));
+        findViewById(R.id.btnMenuEmulator).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BattleEmulatorActivity.class)));
         
-        setupMenuButton(R.id.btnMenuEmulator, "Battle Emulator");
         setupMenuButton(R.id.btnMenuVersus, "Battle Versus");
         setupMenuButton(R.id.btnMenuTorre, "Torre Pokémon");
         setupMenuButton(R.id.btnMenuQuienEs, "¿Quién es ese Pokémon?");
@@ -53,11 +55,41 @@ public class MainActivity extends AppCompatActivity {
         
         // Favoritos Dialog
         findViewById(R.id.btnMenuFavoritos).setOnClickListener(v -> {
+            SharedPreferences prefsFavoritos = getSharedPreferences("PokeFavoritos", MODE_PRIVATE);
+            Map<String, ?> todosLosFavoritos = prefsFavoritos.getAll();
+
+            if (todosLosFavoritos.isEmpty()) {
+                Toast.makeText(this, "Aún no tienes favoritos guardados", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_favoritos, null);
-            AlertDialog dialog = new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .create();
+            AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
             if(dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            LinearLayout llContainer = dialogView.findViewById(R.id.llFavoritosContainer);
+            
+            for (String nombre : todosLosFavoritos.keySet()) {
+                com.google.android.material.button.MaterialButton btnFav = new com.google.android.material.button.MaterialButton(this);
+                btnFav.setText(nombre.toUpperCase());
+                btnFav.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#3B82F6")));
+                btnFav.setTextColor(Color.WHITE);
+                btnFav.setStrokeColor(android.content.res.ColorStateList.valueOf(Color.BLACK));
+                btnFav.setStrokeWidth(3);
+                btnFav.setCornerRadius(12);
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, 130);
+                params.setMargins(0, 0, 0, 16);
+                btnFav.setLayoutParams(params);
+
+                btnFav.setOnClickListener(v2 -> {
+                    dialog.dismiss();
+                    Toast.makeText(this, "Para ver a " + nombre.toUpperCase() + " ve a la Pokédex.", Toast.LENGTH_SHORT).show();
+                });
+                llContainer.addView(btnFav);
+            }
+
             dialogView.findViewById(R.id.btnCerrarDialog).setOnClickListener(v2 -> dialog.dismiss());
             dialog.show();
         });

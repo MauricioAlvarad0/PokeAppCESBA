@@ -35,7 +35,7 @@ public class PokedexActivity extends AppCompatActivity {
     private EditText etBusqueda;
     private MaterialCardView cardPokemon;
     private ImageView ivSprite, ivBack, ivShiny, ivShinyBack;
-    private TextView tvNombre, tvId, tvInfoGral;
+    private TextView tvNombre, tvId, tvInfoGral, tvHabilidades;
     private ProgressBar pbHp, pbAtk, pbDef, pbSpAtk, pbSpDef, pbSpd;
     private TextView tvHp, tvAtk, tvDef, tvSpAtk, tvSpDef, tvSpd;
     private Button btnCry, btnVerFavoritos;
@@ -71,6 +71,7 @@ public class PokedexActivity extends AppCompatActivity {
         tvNombre = findViewById(R.id.tvNombre);
         tvId = findViewById(R.id.tvId);
         tvInfoGral = findViewById(R.id.tvInfoGral);
+        tvHabilidades = findViewById(R.id.tvHabilidades);
         btnCry = findViewById(R.id.btnCry);
         btnFavorito = findViewById(R.id.btnFavorito);
 
@@ -141,6 +142,10 @@ public class PokedexActivity extends AppCompatActivity {
 
                     tvInfoGral.setText("TIPO: " + String.join(", ", tipos) + "\nALTURA: " + (p.height/10.0) + "m | PESO: " + (p.weight/10.0) + "kg");
 
+                    List<String> habs = new ArrayList<>();
+                    if (p.abilities != null) for (Pokemon.AbilitySlot as : p.abilities) habs.add(as.ability.name.toUpperCase());
+                    tvHabilidades.setText("HABILIDADES: " + String.join(", ", habs));
+
                     if (p.sprites != null) {
                         urlFront = p.sprites.frontDefault != null ? p.sprites.frontDefault : "";
                         urlBack = p.sprites.backDefault != null ? p.sprites.backDefault : "";
@@ -200,13 +205,16 @@ public class PokedexActivity extends AppCompatActivity {
         Button btnCerrar = dialog.findViewById(R.id.btnCerrarDialog);
 
         for (String nombre : todosLosFavoritos.keySet()) {
-            Button btnFav = new Button(this);
+            com.google.android.material.button.MaterialButton btnFav = new com.google.android.material.button.MaterialButton(this);
             btnFav.setText(nombre.toUpperCase());
-            btnFav.setBackgroundColor(Color.parseColor("#313131"));
+            btnFav.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#3B82F6")));
             btnFav.setTextColor(Color.WHITE);
+            btnFav.setStrokeColor(android.content.res.ColorStateList.valueOf(Color.BLACK));
+            btnFav.setStrokeWidth(3);
+            btnFav.setCornerRadius(12);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    LinearLayout.LayoutParams.MATCH_PARENT, 130); // ~48dp
             params.setMargins(0, 0, 0, 16);
             btnFav.setLayoutParams(params);
 
