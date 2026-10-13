@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Sombra Oscura Inferior/Derecha (Para efecto de botón que sobresale) -->
+    <item>
+        <shape><solid android:color="#0F172A"/></shape>
+    </item>
+
+    <!-- Brillo superior/izquierdo (Cyan) -->
+    <item android:bottom="8dp" android:right="6dp">
+        <shape><solid android:color="#38BDF8"/></shape>
+    </item>
+
+    <!-- Centro Azul Brillante Principal -->
+    <item android:left="4dp" android:top="4dp" android:bottom="8dp" android:right="6dp">
+        <shape><solid android:color="#0284C7"/></shape>
+    </item>
+</layer-list>

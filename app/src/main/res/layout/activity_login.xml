@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- Imagen de fondo completa -->
+    <!-- Imagen de fondo completa usando el wallpaper original -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/logo_pokeapp" />
 
-    <!-- Capa semitransparente oscura -->
+    <!-- Capa de gradiente oscuro (Recrea la division diagonal con color overlay) -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#22000000" />
+        android:background="#66000022" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,147 +30,250 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="24dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="16dp">
 
-            <!-- Tarjeta de Login -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardLogin"
-                android:layout_width="match_parent"
+            <!-- Título CESBA (Estilo Logo Superpuesto 3D) -->
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="28dp"
-                app:cardElevation="24dp">
+                android:layout_marginBottom="32dp">
+                <!-- Sombra / Borde -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CESBA"
+                    android:textColor="#FDE047"
+                    android:textSize="72sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/pokemon_pixel"
+                    android:translationY="6dp"/>
+                <!-- Relleno -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CESBA"
+                    android:textColor="#38BDF8"
+                    android:textSize="72sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/pokemon_pixel" />
+            </FrameLayout>
 
+            <!-- Contenedor Principal con el Marco Dorado de Pikachu asomándose -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Tarjeta Principal Blanca Metálica (Retro Panel) -->
                 <LinearLayout
+                    android:id="@+id/cardLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:background="@drawable/bg_panel_retro"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
-                    android:padding="28dp">
-
-                    <ImageView
-                        android:id="@+id/ivLoginPokemon"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginBottom="12dp" />
+                    android:paddingHorizontal="24dp"
+                    android:paddingBottom="24dp"
+                    android:paddingTop="60dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
-                        android:text="¡Bienvenido, Entrenador!"
+                        android:text="INICIAR SESIÓN"
                         android:textAlignment="center"
-                        android:textColor="#0A192F"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:textColor="#1E293B"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"/>
 
                     <!-- Caja de Nombre (Para Registro) -->
-                    <com.google.android.material.textfield.TextInputLayout
+                    <LinearLayout
                         android:id="@+id/layoutName"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_input_retro"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#64748B"
                         android:visibility="gone"
-                        app:boxStrokeColor="#2563EB"
-                        app:hintTextColor="#2563EB"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp">
-                        <com.google.android.material.textfield.TextInputEditText
+                        android:gravity="center_vertical">
+                        <EditText
                             android:id="@+id/etName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@null"
                             android:hint="Nombre de Entrenador"
-                            android:textColor="#1E293B"
-                            android:textColorHint="#9CA3AF"
-                            android:inputType="textPersonName" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:textColor="#FFFFFF"
+                            android:textColorHint="#94A3B8"
+                            android:inputType="textPersonName"
+                            android:paddingHorizontal="16dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/pokemon_pixel"/>
+                    </LinearLayout>
 
                     <!-- Caja de Correo -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_input_retro"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#64748B"
-                        app:boxStrokeColor="#2563EB"
-                        app:hintTextColor="#2563EB"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp">
-                        <com.google.android.material.textfield.TextInputEditText
+                        android:gravity="center_vertical">
+                        <EditText
                             android:id="@+id/etEmail"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Correo electrónico"
-                            android:textColor="#1E293B"
-                            android:textColorHint="#9CA3AF"
-                            android:inputType="textEmailAddress" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:hint="Correo"
+                            android:textColor="#FFFFFF"
+                            android:textColorHint="#94A3B8"
+                            android:inputType="textEmailAddress"
+                            android:paddingHorizontal="16dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/pokemon_pixel"/>
+                    </LinearLayout>
 
                     <!-- Caja de Contraseña -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:textColorHint="#64748B"
-                        app:boxStrokeColor="#2563EB"
-                        app:hintTextColor="#2563EB"
-                        app:boxCornerRadiusTopStart="12dp"
-                        app:boxCornerRadiusTopEnd="12dp"
-                        app:boxCornerRadiusBottomStart="12dp"
-                        app:boxCornerRadiusBottomEnd="12dp"
-                        app:passwordToggleEnabled="true"
-                        app:passwordToggleTint="#64748B">
-                        <com.google.android.material.textfield.TextInputEditText
+                        android:layout_height="60dp"
+                        android:background="@drawable/bg_input_retro"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <EditText
                             android:id="@+id/etPassword"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null"
                             android:hint="Contraseña"
-                            android:textColor="#1E293B"
-                            android:textColorHint="#9CA3AF"
-                            android:inputType="textPassword" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:textColor="#FFFFFF"
+                            android:textColorHint="#94A3B8"
+                            android:inputType="textPassword"
+                            android:paddingHorizontal="16dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/pokemon_pixel"/>
 
+                        <!-- Icono de Ojito de contraseña -->
+                        <ImageView
+                            android:id="@+id/ivTogglePass"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@android:drawable/ic_menu_view"
+                            app:tint="#94A3B8"
+                            android:padding="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:clickable="true"
+                            android:focusable="true"/>
+                    </LinearLayout>
+
+                    <!-- Botones -->
                     <Button
                         android:id="@+id/btnLogin"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:backgroundTint="#2563EB"
+                        android:layout_height="65dp"
+                        android:background="@drawable/bg_button_retro"
                         android:text="INICIAR SESIÓN"
                         android:textColor="#FFFFFF"
-                        android:textSize="16sp"
+                        android:textSize="26sp"
                         android:textStyle="bold"
-                        app:cornerRadius="16dp" />
+                        android:fontFamily="@font/pokemon_pixel"
+                        app:backgroundTint="@null"/>
 
-                    <Button
+                    <TextView
                         android:id="@+id/btnRegister"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="CREAR UNA CUENTA NUEVA"
-                        android:textColor="#2563EB"
-                        android:textStyle="bold" />
+                        android:layout_marginTop="16dp"
+                        android:text="REGISTRARME"
+                        android:textAlignment="center"
+                        android:textColor="#0284C7"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:clickable="true"
+                        android:focusable="true"/>
 
                     <TextView
                         android:id="@+id/tvOlvidePassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="¿Olvidaste tu contraseña?"
+                        android:layout_marginTop="12dp"
+                        android:text="¿OLVIDASTE TU CONTRASEÑA?"
                         android:textAlignment="center"
                         android:textColor="#64748B"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/pokemon_pixel"
                         android:clickable="true"
                         android:focusable="true"/>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+
+                <!-- Marco Dorado de Pikachu Superpuesto -->
+                <LinearLayout
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/bg_gold_frame"
+                    android:gravity="center"
+                    android:elevation="10dp">
+
+                    <ImageView
+                        android:id="@+id/ivLoginPokemon"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:scaleType="fitCenter"/>
+                </LinearLayout>
+
+                <!-- Adornos Esquinas de la Tarjeta Blanca -->
+                <View android:layout_width="16dp" android:layout_height="16dp" android:layout_alignStart="@id/cardLogin" android:layout_alignTop="@id/cardLogin" android:layout_marginTop="72dp" android:layout_marginStart="-8dp" android:background="#38BDF8" android:rotation="45" android:elevation="20dp"/>
+                <View android:layout_width="16dp" android:layout_height="16dp" android:layout_alignEnd="@id/cardLogin" android:layout_alignTop="@id/cardLogin" android:layout_marginTop="72dp" android:layout_marginEnd="-8dp" android:background="#38BDF8" android:rotation="45" android:elevation="20dp"/>
+                <View android:layout_width="16dp" android:layout_height="16dp" android:layout_alignStart="@id/cardLogin" android:layout_alignBottom="@id/cardLogin" android:layout_marginBottom="-8dp" android:layout_marginStart="-8dp" android:background="#EF4444" android:rotation="45" android:elevation="20dp"/>
+                <View android:layout_width="16dp" android:layout_height="16dp" android:layout_alignEnd="@id/cardLogin" android:layout_alignBottom="@id/cardLogin" android:layout_marginBottom="-8dp" android:layout_marginEnd="-8dp" android:background="#D946EF" android:rotation="45" android:elevation="20dp"/>
+
+            </RelativeLayout>
+
+            <!-- Títulos Footer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="32dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- PRESS START -"
+                    android:textColor="#FDE047"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/pokemon_pixel"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="POKÉAPP V2"
+                    android:textColor="#FFFFFF"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:shadowColor="#000000"
+                    android:shadowDx="2"
+                    android:shadowDy="2"
+                    android:shadowRadius="2"
+                    android:fontFamily="@font/pokemon_pixel"
+                    android:layout_marginVertical="4dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BY VICTOR VARGAS"
+                    android:textColor="#94A3B8"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pokemon_pixel"/>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

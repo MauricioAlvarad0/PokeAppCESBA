@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Highlight Inferior/Derecho (Para el efecto de profundidad hacia adentro) -->
+    <item>
+        <shape><solid android:color="#94A3B8"/></shape>
+    </item>
+
+    <!-- Sombra Oscura Superior/Izquierda -->
+    <item android:bottom="4dp" android:right="4dp">
+        <shape><solid android:color="#1E293B"/></shape>
+    </item>
+
+    <!-- Centro gris oscuro donde va el texto -->
+    <item android:left="4dp" android:top="4dp" android:right="2dp" android:bottom="2dp">
+        <shape><solid android:color="#475569"/></shape>
+    </item>
+</layer-list>

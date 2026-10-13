@@ -20,103 +20,134 @@
         android:background="#40000000" />
 
     <!-- Top Bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:paddingHorizontal="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="#3B4861"
+        app:cardCornerRadius="12dp"
+        app:strokeColor="#637DA3"
+        app:strokeWidth="3dp"
+        app:cardElevation="8dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Botón Atrás -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnBack"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardBackgroundColor="#1E293B"
-            app:cardCornerRadius="22.5dp"
-            app:strokeColor="#94A3B8"
-            app:strokeWidth="2dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_revert" app:tint="#FFFFFF" android:padding="10dp"/>
-        </com.google.android.material.card.MaterialCardView>
+        <!-- Botones ocultos para mantener referencias Java sin romper diseño -->
+        <View android:id="@+id/btnBack" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" />
+        <View android:id="@+id/btnOptions" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" />
 
-        <!-- Botón Opciones -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnOptions"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardBackgroundColor="#1E293B"
-            app:cardCornerRadius="22.5dp"
-            app:strokeColor="#94A3B8"
-            app:strokeWidth="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_sort_by_size" app:tint="#FFFFFF" android:padding="10dp"/>
-        </com.google.android.material.card.MaterialCardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center_vertical">
 
-        <!-- Badge Entrenador -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            app:cardBackgroundColor="#0284C7"
-            app:cardCornerRadius="12dp"
-            app:strokeColor="#38BDF8"
-            app:strokeWidth="3dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="20dp"
-            app:cardElevation="8dp">
-            <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center" android:paddingStart="40dp" android:paddingEnd="20dp">
+            <!-- Avatar -->
+            <ImageView
+                android:id="@+id/cardAvatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                app:tint="#94A3B8" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvSaludo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ENTRENADOR:\nMAURICIO"
-                    android:textColor="#FDE047"
-                    android:textSize="14sp"
+                    android:text="Entrenador: mauricio"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textAlignment="center"
-                    android:shadowColor="#000000"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="3"
-                    android:fontFamily="@font/pokemon_pixel"/>
+                    android:fontFamily="@font/pokemon_pixel" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:id="@+id/tvNivel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Niv 11"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/pokemon_pixel" />
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="120dp"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="8dp"
+                        android:progress="40"
+                        android:progressTint="#22C55E"
+                        android:progressBackgroundTint="#1E293B" />
+                </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Avatar Entrenador superpuesto -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            app:cardBackgroundColor="#F8FAFC"
-            app:cardCornerRadius="32.5dp"
-            app:strokeColor="#38BDF8"
-            app:strokeWidth="3dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.20"
-            app:cardElevation="10dp">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@android:drawable/ic_menu_myplaces"
-                app:tint="#1E293B"
-                android:padding="12dp"
-                android:background="#E2E8F0"/>
-        </com.google.android.material.card.MaterialCardView>
+            <!-- Monedas y Trofeos -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/btn_star_big_on"
+                        app:tint="#F59E0B"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="1599"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/btn_star_big_off"
+                        app:tint="#F59E0B"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="20/800"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Grid Completo de 13 Botones -->
     <ScrollView
@@ -140,98 +171,98 @@
             android:useDefaultMargins="true">
 
             <!-- A. Pokédex -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuPokedex" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#EF4444" app:cardCornerRadius="16dp" app:strokeColor="#FCA5A5" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuPokedex" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#C48E33" app:cardCornerRadius="16dp" app:strokeColor="#E6B45A" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_view" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="A. POKÉDEX" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_pokedex_book" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="A. POKÉDEX" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- B. Emulator -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuEmulator" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#F97316" app:cardCornerRadius="16dp" app:strokeColor="#FDBA74" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuEmulator" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#8B5A2B" app:cardCornerRadius="16dp" app:strokeColor="#A87B52" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_close_clear_cancel" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="B. BATTLE\nEMULATOR" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_battle_emulator" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="B. BATTLE\nEMULATOR" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- C. Versus -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuVersus" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#3B82F6" app:cardCornerRadius="16dp" app:strokeColor="#93C5FD" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuVersus" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#3A7CA5" app:cardCornerRadius="16dp" app:strokeColor="#6EA1C2" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_mylocation" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="C. BATTLE\nVERSUS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_battle_versus" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="C. BATTLE\nVERSUS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- D. Torre -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuTorre" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#A855F7" app:cardCornerRadius="16dp" app:strokeColor="#D8B4FE" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuTorre" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#8E44AD" app:cardCornerRadius="16dp" app:strokeColor="#AF7AC5" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_sort_by_size" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="D. TORRE\nPOKÉMON" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_torre_pokemon" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="D. TORRE\nPOKÉMON" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- E. Quien es -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuQuienEs" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#EAB308" app:cardCornerRadius="16dp" app:strokeColor="#FDE047" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuQuienEs" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#F39C12" app:cardCornerRadius="16dp" app:strokeColor="#F7DC6F" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_help" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="E. ¿QUIÉN ES\nESE POKÉMON?" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_quien_es" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="E. ¿QUIÉN ES\nESE POKÉMON?" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- F. Safari -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuSafari" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#22C55E" app:cardCornerRadius="16dp" app:strokeColor="#86EFAC" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuSafari" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#27AE60" app:cardCornerRadius="16dp" app:strokeColor="#82E0AA" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_camera" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="F. SAFARI\nPOKÉMON" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_safari_pokemon" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="F. SAFARI\nPOKÉMON" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- G. Maestro de Tipos -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuMaestro" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#EC4899" app:cardCornerRadius="16dp" app:strokeColor="#F9A8D4" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuMaestro" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#E84393" app:cardCornerRadius="16dp" app:strokeColor="#F5B7B1" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_share" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="G. MAESTRO\nDE TIPOS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_maestro_tipos" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="G. MAESTRO\nDE TIPOS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- H. Memory -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuMemory" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#0EA5E9" app:cardCornerRadius="16dp" app:strokeColor="#7DD3FC" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuMemory" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#2980B9" app:cardCornerRadius="16dp" app:strokeColor="#AED6F1" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_gallery" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="H. POKÉMEMORY" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_poke_memory" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="H. POKÉMEMORY" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- I. Favoritos -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuFavoritos" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#EF4444" app:cardCornerRadius="16dp" app:strokeColor="#FCA5A5" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuFavoritos" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#C0392B" app:cardCornerRadius="16dp" app:strokeColor="#F5B7B1" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_zoom" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="I. FAVORITOS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_favoritos" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="I. FAVORITOS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- J. Historial -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuHistorial" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#1E3A8A" app:cardCornerRadius="16dp" app:strokeColor="#93C5FD" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuHistorial" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#2C3E50" app:cardCornerRadius="16dp" app:strokeColor="#5DADE2" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_agenda" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="J. HISTORIAL" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_historial" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="J. HISTORIAL" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- K. Medallas -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuMedallas" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#475569" app:cardCornerRadius="16dp" app:strokeColor="#94A3B8" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuMedallas" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#7F8C8D" app:cardCornerRadius="16dp" app:strokeColor="#BDC3C7" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_compass" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="K. MEDALLAS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_medallas" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="K. MEDALLAS" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- L. Mi Perfil -->
-            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuPerfil" android:layout_width="0dp" android:layout_height="110dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#A855F7" app:cardCornerRadius="16dp" app:strokeColor="#D8B4FE" app:strokeWidth="2dp" app:cardElevation="6dp">
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuPerfil" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#8E44AD" app:cardCornerRadius="16dp" app:strokeColor="#D7BDE2" app:strokeWidth="4dp" app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
-                    <ImageView android:layout_width="48dp" android:layout_height="48dp" android:src="@android:drawable/ic_menu_myplaces" app:tint="@color/white" android:layout_marginBottom="8dp"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="L. MI PERFIL" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/ic_mi_perfil" android:layout_marginBottom="4dp" android:scaleType="fitCenter" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="L. MI PERFIL" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -239,17 +270,17 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnMenuConfiguracion"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="65dp"
                 android:layout_columnSpan="3"
                 android:layout_margin="6dp"
-                app:cardBackgroundColor="#64748B"
-                app:cardCornerRadius="12dp"
-                app:strokeColor="#94A3B8"
-                app:strokeWidth="3dp"
+                app:cardBackgroundColor="#5D6D7E"
+                app:cardCornerRadius="16dp"
+                app:strokeColor="#AEB6BF"
+                app:strokeWidth="4dp"
                 app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="horizontal" android:background="?attr/selectableItemBackground">
                     <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@android:drawable/ic_menu_preferences" app:tint="@color/white"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="16dp" android:text="M. CONFIGURACIÓN" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" android:shadowColor="#80000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="16dp" android:text="M. CONFIGURACIÓN" android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                     <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@android:drawable/ic_menu_preferences" app:tint="@color/white"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -270,58 +301,58 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/ivNavHome"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="#1E293B"
-            app:cardCornerRadius="25dp"
-            app:strokeColor="#0EA5E9"
-            app:strokeWidth="3dp"
-            android:layout_marginHorizontal="8dp"
-            app:cardElevation="8dp">
-            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_today" app:tint="#0EA5E9" android:padding="12dp" android:background="?attr/selectableItemBackgroundBorderless"/>
+            app:cardBackgroundColor="#4D2D3B51"
+            app:cardCornerRadius="20dp"
+            app:strokeColor="#3498DB"
+            app:strokeWidth="2dp"
+            android:layout_marginHorizontal="6dp"
+            app:cardElevation="0dp">
+            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_today" app:tint="#3498DB" android:padding="10dp" android:background="?attr/selectableItemBackgroundBorderless"/>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/ivNavPokedex"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="#1E293B"
-            app:cardCornerRadius="25dp"
-            app:strokeColor="#F97316"
-            app:strokeWidth="3dp"
-            android:layout_marginHorizontal="8dp"
-            app:cardElevation="8dp">
-            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_sort_by_size" app:tint="#F97316" android:padding="12dp" android:background="?attr/selectableItemBackgroundBorderless"/>
+            app:cardBackgroundColor="#4D2D3B51"
+            app:cardCornerRadius="20dp"
+            app:strokeColor="#E67E22"
+            app:strokeWidth="2dp"
+            android:layout_marginHorizontal="6dp"
+            app:cardElevation="0dp">
+            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_sort_by_size" app:tint="#E67E22" android:padding="10dp" android:background="?attr/selectableItemBackgroundBorderless"/>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/ivNavCompass"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="#1E293B"
-            app:cardCornerRadius="25dp"
-            app:strokeColor="#22C55E"
-            app:strokeWidth="3dp"
-            android:layout_marginHorizontal="8dp"
-            app:cardElevation="8dp">
-            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_compass" app:tint="#22C55E" android:padding="12dp" android:background="?attr/selectableItemBackgroundBorderless"/>
+            app:cardBackgroundColor="#4D2D3B51"
+            app:cardCornerRadius="20dp"
+            app:strokeColor="#2ECC71"
+            app:strokeWidth="2dp"
+            android:layout_marginHorizontal="6dp"
+            app:cardElevation="0dp">
+            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_compass" app:tint="#2ECC71" android:padding="10dp" android:background="?attr/selectableItemBackgroundBorderless"/>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btnCerrarSesion"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            app:cardBackgroundColor="#1E293B"
-            app:cardCornerRadius="25dp"
-            app:strokeColor="#A855F7"
-            app:strokeWidth="3dp"
-            android:layout_marginHorizontal="8dp"
-            app:cardElevation="8dp">
-            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_myplaces" app:tint="#A855F7" android:padding="12dp" android:background="?attr/selectableItemBackgroundBorderless"/>
+            app:cardBackgroundColor="#4D2D3B51"
+            app:cardCornerRadius="20dp"
+            app:strokeColor="#9B59B6"
+            app:strokeWidth="2dp"
+            android:layout_marginHorizontal="6dp"
+            app:cardElevation="0dp">
+            <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@android:drawable/ic_menu_myplaces" app:tint="#9B59B6" android:padding="10dp" android:background="?attr/selectableItemBackgroundBorderless"/>
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView android:id="@+id/ivNavAdd" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone"/>

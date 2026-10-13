@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Borde Exterior de Plomo oscuro -->
+    <item>
+        <shape><solid android:color="#334155"/></shape>
+    </item>
+    <!-- Bisel interior brillante metálico plateado -->
+    <item android:left="4dp" android:top="4dp" android:right="4dp" android:bottom="4dp">
+        <shape><solid android:color="#CBD5E1"/></shape>
+    </item>
+    <!-- Fondo central blanco roto estilo Gameboy -->
+    <item android:left="8dp" android:top="8dp" android:right="8dp" android:bottom="8dp">
+        <shape><solid android:color="#F8FAFC"/></shape>
+    </item>
+
+    <!-- Simulador de Rombo Esquina Superior Izquierda -->
+    <item android:width="12dp" android:height="12dp" android:gravity="top|start">
+        <shape><solid android:color="#0EA5E9"/></shape>
+    </item>
+    <!-- Simulador de Rombo Esquina Superior Derecha -->
+    <item android:width="12dp" android:height="12dp" android:gravity="top|end">
+        <shape><solid android:color="#0EA5E9"/></shape>
+    </item>
+    <!-- Simulador de Rombo Esquina Inferior Izquierda -->
+    <item android:width="12dp" android:height="12dp" android:gravity="bottom|start">
+        <shape><solid android:color="#EF4444"/></shape>
+    </item>
+    <!-- Simulador de Rombo Esquina Inferior Derecha -->
+    <item android:width="12dp" android:height="12dp" android:gravity="bottom|end">
+        <shape><solid android:color="#D946EF"/></shape>
+    </item>
+</layer-list>
