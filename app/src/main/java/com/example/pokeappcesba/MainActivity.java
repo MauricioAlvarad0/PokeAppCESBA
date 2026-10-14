@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnMenuEmulator).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BattleEmulatorActivity.class)));
         
         setupMenuButton(R.id.btnMenuVersus, "Battle Versus");
-        setupMenuButton(R.id.btnMenuTorre, "Torre Pokémon");
+        findViewById(R.id.btnMenuTorre).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, TowerActivity.class)));
         setupMenuButton(R.id.btnMenuQuienEs, "¿Quién es ese Pokémon?");
         setupMenuButton(R.id.btnMenuSafari, "Safari Pokémon");
         setupMenuButton(R.id.btnMenuMaestro, "Maestro de Tipos");
@@ -67,27 +67,48 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
             if(dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-            LinearLayout llContainer = dialogView.findViewById(R.id.llFavoritosContainer);
+            android.widget.GridLayout llContainer = dialogView.findViewById(R.id.llFavoritosContainer);
             
+            PokeApiService apiService = new retrofit2.Retrofit.Builder()
+                    .baseUrl("https://pokeapi.co/api/v2/")
+                    .addConverterFactory(retrofit2.converter.gson.GsonConverterFactory.create())
+                    .build()
+                    .create(PokeApiService.class);
+
             for (String nombre : todosLosFavoritos.keySet()) {
-                com.google.android.material.button.MaterialButton btnFav = new com.google.android.material.button.MaterialButton(this);
-                btnFav.setText(nombre.toUpperCase());
-                btnFav.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#3B82F6")));
-                btnFav.setTextColor(Color.WHITE);
-                btnFav.setStrokeColor(android.content.res.ColorStateList.valueOf(Color.BLACK));
-                btnFav.setStrokeWidth(3);
-                btnFav.setCornerRadius(12);
-
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, 130);
-                params.setMargins(0, 0, 0, 16);
-                btnFav.setLayoutParams(params);
-
-                btnFav.setOnClickListener(v2 -> {
+                View itemFav = getLayoutInflater().inflate(R.layout.item_favorito, llContainer, false);
+                android.widget.ImageView ivPokemonFavo = itemFav.findViewById(R.id.ivPokemonFavo);
+                android.widget.TextView tvPokemonNombreFavo = itemFav.findViewById(R.id.tvPokemonNombreFavo);
+                
+                tvPokemonNombreFavo.setText(nombre);
+                
+                itemFav.setOnClickListener(v2 -> {
                     dialog.dismiss();
                     Toast.makeText(this, "Para ver a " + nombre.toUpperCase() + " ve a la Pokédex.", Toast.LENGTH_SHORT).show();
                 });
-                llContainer.addView(btnFav);
+
+                apiService.getPokemon(nombre).enqueue(new retrofit2.Callback<Pokemon>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<Pokemon> call, retrofit2.Response<Pokemon> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            String spriteUrl = "";
+                            if (response.body().sprites != null) {
+                                if (response.body().sprites.other != null && response.body().sprites.other.showdown != null && response.body().sprites.other.showdown.frontDefault != null) {
+                                    spriteUrl = response.body().sprites.other.showdown.frontDefault;
+                                } else if (response.body().sprites.frontDefault != null) {
+                                    spriteUrl = response.body().sprites.frontDefault;
+                                }
+                            }
+                            if (!spriteUrl.isEmpty()) {
+                                com.bumptech.glide.Glide.with(MainActivity.this).load(spriteUrl).into(ivPokemonFavo);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onFailure(retrofit2.Call<Pokemon> call, Throwable t) {}
+                });
+                
+                llContainer.addView(itemFav);
             }
 
             dialogView.findViewById(R.id.btnCerrarDialog).setOnClickListener(v2 -> dialog.dismiss());
@@ -95,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setupMenuButton(R.id.btnMenuHistorial, "Historial");
-        setupMenuButton(R.id.btnMenuMedallas, "Medallas");
+        findViewById(R.id.btnMenuMedallas).setOnClickListener(v -> mostrarDialogoMedallas());
         
         // Mi Perfil y Configuración abren el diálogo de configuración del entrenador
         View.OnClickListener configListener = v -> mostrarDialogoConfiguracion();
@@ -139,6 +160,21 @@ public class MainActivity extends AppCompatActivity {
         }
         etTrainerName.setText(currentName);
         etTrainerName.setSelection(etTrainerName.getText().length());
+        
+        String userUid = "default";
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        SharedPreferences prefsMedallas = getSharedPreferences("PokeMedallas_" + userUid, MODE_PRIVATE);
+        int medals = prefsMedallas.getInt("medals_count", 0);
+        
+        TextView tvStats = new TextView(this);
+        tvStats.setText("🏆 Medallas de la Torre: " + medals + "/10");
+        tvStats.setTextColor(Color.WHITE);
+        tvStats.setTextSize(16f);
+        tvStats.setPadding(0, 16, 0, 16);
+        tvStats.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        ((LinearLayout)etTrainerName.getParent()).addView(tvStats, 1);
 
         btnSave.setOnClickListener(v -> {
             String newName = etTrainerName.getText().toString().trim();
@@ -162,5 +198,53 @@ public class MainActivity extends AppCompatActivity {
         if (view != null) {
             view.setOnClickListener(v -> Toast.makeText(this, "Sección: " + title, Toast.LENGTH_SHORT).show());
         }
+    }
+
+    private void mostrarDialogoMedallas() {
+        String userUid = "default";
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        SharedPreferences prefsMedallas = getSharedPreferences("PokeMedallas_" + userUid, MODE_PRIVATE);
+        int medals = prefsMedallas.getInt("medals_count", 0);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_favoritos, null);
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
+        if(dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        android.widget.GridLayout llContainer = dialogView.findViewById(R.id.llFavoritosContainer);
+        llContainer.removeAllViews();
+        llContainer.setColumnCount(2);
+
+        for (int i = 1; i <= 10; i++) {
+            View itemCard = getLayoutInflater().inflate(R.layout.item_favorito, llContainer, false);
+            android.widget.ImageView ivMedal = itemCard.findViewById(R.id.ivPokemonFavo);
+            android.widget.TextView tvTitle = itemCard.findViewById(R.id.tvPokemonNombreFavo);
+            
+            android.widget.GridLayout.LayoutParams params = new android.widget.GridLayout.LayoutParams();
+            params.width = android.widget.GridLayout.LayoutParams.WRAP_CONTENT;
+            params.height = android.widget.GridLayout.LayoutParams.WRAP_CONTENT;
+            params.setMargins(16, 16, 16, 16);
+            itemCard.setLayoutParams(params);
+            
+            if (i <= medals) {
+                ivMedal.setImageResource(R.drawable.ic_medallas);
+                tvTitle.setText(TowerActivity.MEDALLAS_TORRE[i-1] + "\n🎖️ DESBLOQUEADA");
+                tvTitle.setTextColor(Color.parseColor("#FFCC00"));
+            } else {
+                ivMedal.setImageResource(R.drawable.ic_medallas);
+                ivMedal.setColorFilter(Color.GRAY);
+                ivMedal.setAlpha(0.3f);
+                tvTitle.setText("Medalla " + i + "\n🔒 Bloqueada");
+                tvTitle.setTextColor(Color.GRAY);
+            }
+            llContainer.addView(itemCard);
+        }
+
+        Button btnCerrar = dialogView.findViewById(R.id.btnCerrarDialog);
+        btnCerrar.setText("CERRAR MEDALLAS (" + medals + "/10)");
+        btnCerrar.setOnClickListener(v2 -> dialog.dismiss());
+        
+        dialog.show();
     }
 }

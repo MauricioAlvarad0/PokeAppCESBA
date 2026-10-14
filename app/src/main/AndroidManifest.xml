@@ -15,15 +15,21 @@
         android:theme="@style/Theme.PokeAppCESBA"
         tools:targetApi="31">
 
-        <activity android:name=".SplashActivity" android:exported="true" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        </activity>
-
-        <activity android:name=".LoginActivity" android:exported="true" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" android:windowSoftInputMode="adjustResize">
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".MainActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
 
@@ -31,6 +37,8 @@
 
         <!-- Nueva Pantalla Pokedex -->
         <activity android:name=".PokedexActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
+        <activity android:name=".TowerActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
 
     </application>
 </manifest>

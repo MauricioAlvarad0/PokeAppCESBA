@@ -147,10 +147,17 @@ public class PokedexActivity extends AppCompatActivity {
                     tvHabilidades.setText("HABILIDADES: " + String.join(", ", habs));
 
                     if (p.sprites != null) {
-                        urlFront = p.sprites.frontDefault != null ? p.sprites.frontDefault : "";
-                        urlBack = p.sprites.backDefault != null ? p.sprites.backDefault : "";
-                        urlShiny = p.sprites.frontShiny != null ? p.sprites.frontShiny : "";
-                        urlShinyBack = p.sprites.backShiny != null ? p.sprites.backShiny : "";
+                        if (p.sprites.other != null && p.sprites.other.showdown != null) {
+                            urlFront = p.sprites.other.showdown.frontDefault != null ? p.sprites.other.showdown.frontDefault : (p.sprites.frontDefault != null ? p.sprites.frontDefault : "");
+                            urlBack = p.sprites.other.showdown.backDefault != null ? p.sprites.other.showdown.backDefault : (p.sprites.backDefault != null ? p.sprites.backDefault : "");
+                            urlShiny = p.sprites.other.showdown.frontShiny != null ? p.sprites.other.showdown.frontShiny : (p.sprites.frontShiny != null ? p.sprites.frontShiny : "");
+                            urlShinyBack = p.sprites.other.showdown.backShiny != null ? p.sprites.other.showdown.backShiny : (p.sprites.backShiny != null ? p.sprites.backShiny : "");
+                        } else {
+                            urlFront = p.sprites.frontDefault != null ? p.sprites.frontDefault : "";
+                            urlBack = p.sprites.backDefault != null ? p.sprites.backDefault : "";
+                            urlShiny = p.sprites.frontShiny != null ? p.sprites.frontShiny : "";
+                            urlShinyBack = p.sprites.backShiny != null ? p.sprites.backShiny : "";
+                        }
 
                         if (!urlFront.isEmpty()) Glide.with(PokedexActivity.this).load(urlFront).into(ivSprite);
                         if (!urlBack.isEmpty()) Glide.with(PokedexActivity.this).load(urlBack).into(ivBack);
@@ -201,29 +208,45 @@ public class PokedexActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.dialog_favoritos);
         if(dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        LinearLayout llContainer = dialog.findViewById(R.id.llFavoritosContainer);
+        android.widget.GridLayout llContainer = dialog.findViewById(R.id.llFavoritosContainer);
         Button btnCerrar = dialog.findViewById(R.id.btnCerrarDialog);
 
         for (String nombre : todosLosFavoritos.keySet()) {
-            com.google.android.material.button.MaterialButton btnFav = new com.google.android.material.button.MaterialButton(this);
-            btnFav.setText(nombre.toUpperCase());
-            btnFav.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.parseColor("#3B82F6")));
-            btnFav.setTextColor(Color.WHITE);
-            btnFav.setStrokeColor(android.content.res.ColorStateList.valueOf(Color.BLACK));
-            btnFav.setStrokeWidth(3);
-            btnFav.setCornerRadius(12);
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, 130); // ~48dp
-            params.setMargins(0, 0, 0, 16);
-            btnFav.setLayoutParams(params);
-
-            btnFav.setOnClickListener(v -> {
+            View itemFav = getLayoutInflater().inflate(R.layout.item_favorito, llContainer, false);
+            ImageView ivPokemonFavo = itemFav.findViewById(R.id.ivPokemonFavo);
+            TextView tvPokemonNombreFavo = itemFav.findViewById(R.id.tvPokemonNombreFavo);
+            
+            tvPokemonNombreFavo.setText(nombre);
+            
+            itemFav.setOnClickListener(v -> {
                 etBusqueda.setText(nombre);
                 buscarPokemon(nombre);
                 dialog.dismiss();
             });
-            llContainer.addView(btnFav);
+
+            // Llamada rápida a la API para obtener el sprite
+            apiService.getPokemon(nombre).enqueue(new Callback<Pokemon>() {
+                @Override
+                public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String spriteUrl = "";
+                        if (response.body().sprites != null) {
+                            if (response.body().sprites.other != null && response.body().sprites.other.showdown != null && response.body().sprites.other.showdown.frontDefault != null) {
+                                spriteUrl = response.body().sprites.other.showdown.frontDefault;
+                            } else if (response.body().sprites.frontDefault != null) {
+                                spriteUrl = response.body().sprites.frontDefault;
+                            }
+                        }
+                        if (!spriteUrl.isEmpty()) {
+                            Glide.with(PokedexActivity.this).load(spriteUrl).into(ivPokemonFavo);
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<Pokemon> call, Throwable t) {}
+            });
+
+            llContainer.addView(itemFav);
         }
 
         btnCerrar.setOnClickListener(v -> dialog.dismiss());

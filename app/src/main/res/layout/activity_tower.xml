@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F172A">
+
+    <!-- TEAM SELECTION SCREEN -->
+    <LinearLayout
+        android:id="@+id/llTeamSelection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TORRE CESBA · DESAFÍO DE 6 PISOS"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/pokemon_pixel"/>
+
+        <TextView
+            android:id="@+id/tvSubtitleSelection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¡ELIGE 3 COMBATIENTES! (0/3)"
+            android:textAlignment="center"
+            android:textColor="#FFCC00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/pokemon_pixel"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <!-- Columna Izquierda: Escalera -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.42"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingEnd="8dp">
+
+                <!-- Piso 6 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_gold_frame"
+                    android:layout_marginBottom="4dp"
+                    android:padding="4dp">
+                    <ImageView
+                        android:id="@+id/ivDocente6"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_mi_perfil"
+                        android:scaleType="centerCrop"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PISO 6:\nDOCENTE 6\n(JEFE FINAL)"
+                        android:textColor="#000000"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <!-- Pisos 5 al 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_panel_retro"
+                    android:layout_marginBottom="4dp"
+                    android:padding="4dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PISO 5:\nDOCENTE 5"
+                        android:textColor="#000000"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_panel_retro"
+                    android:layout_marginBottom="4dp"
+                    android:padding="4dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PISO 4:\nDOCENTE 4"
+                        android:textColor="#000000"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_panel_retro"
+                    android:layout_marginBottom="4dp"
+                    android:padding="4dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PISO 3:\nDOCENTE 3"
+                        android:textColor="#000000"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_panel_retro"
+                    android:layout_marginBottom="4dp"
+                    android:padding="4dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PISO 2:\nDOCENTE 2"
+                        android:textColor="#000000"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <!-- Piso 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_panel_retro"
+                    android:padding="4dp">
+                    <ImageView
+                        android:id="@+id/ivDocente1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_mi_perfil"
+                        android:scaleType="centerCrop"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PISO 1:\nDOCENTE 1\n🔥 NIVEL ACTUAL"
+                        android:textColor="#FF3B30"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Columna Derecha: Pokémon -->
+            <GridLayout
+                android:id="@+id/glPokemonSelection"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.58"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:alignmentMode="alignMargins"
+                android:columnOrderPreserved="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnRandomTeam"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="❓ EQUIPO ALEATORIO (?)"
+                android:backgroundTint="#455A64"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
+                android:fontFamily="@font/pokemon_pixel"
+                android:layout_marginBottom="8dp"/>
+
+            <Button
+                android:id="@+id/btnStartTower"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="🔥 ¡INICIAR TORRE (0/3)! 🔥"
+                android:enabled="false"
+                android:backgroundTint="#FF3B30"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                app:cornerRadius="8dp"
+                android:fontFamily="@font/pokemon_pixel"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- TOWER ARENA SCREEN -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clTowerArena"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:background="@drawable/bg_battle_arena">
+
+        <!-- Banner Nivel y Docente -->
+        <LinearLayout
+            android:id="@+id/llLevelBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_panel_retro"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivDocente"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_mi_perfil"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:id="@+id/tvTowerLevel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NIVEL 1 DE 6"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/pokemon_pixel"/>
+
+                <TextView
+                    android:id="@+id/tvDocenteName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Docente CESBA 1"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/pokemon_pixel"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvAliveCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tú: 3 | Ene: 3"
+                android:textColor="#FF3B30"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/pokemon_pixel"/>
+        </LinearLayout>
+
+        <!-- Área de Batalla -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clBattleArea"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/llLevelBanner"
+            app:layout_constraintBottom_toTopOf="@id/flBottomControls">
+
+            <!-- Sprite Enemigo -->
+            <ImageView
+                android:id="@+id/ivEnemyPokemon"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Enemigo Stats (Arriba Izquierda) -->
+            <LinearLayout
+                android:id="@+id/llEnemyStats"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_health_box"
+                android:padding="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvEnemyName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Enemigo"
+                        android:textColor="#000"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lv.50"
+                        android:textColor="#000"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HP"
+                        android:background="#000000"
+                        android:textColor="#FFC107"
+                        android:textSize="8sp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                    <ProgressBar
+                        android:id="@+id/pbEnemyHp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="4dp"
+                        android:progressDrawable="@drawable/hp_bar_states" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Sprite Jugador -->
+            <ImageView
+                android:id="@+id/ivPlayerPokemon"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginBottom="40dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Jugador Stats (Abajo Derecha) -->
+            <LinearLayout
+                android:id="@+id/llPlayerStats"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_health_box"
+                android:padding="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvPlayerName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Jugador"
+                        android:textColor="#000"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lv.50"
+                        android:textColor="#000"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HP"
+                        android:background="#000000"
+                        android:textColor="#FFC107"
+                        android:textSize="8sp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/pokemon_pixel"/>
+                    <ProgressBar
+                        android:id="@+id/pbPlayerHp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="4dp"
+                        android:progressDrawable="@drawable/hp_bar_states"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvPlayerHpText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HP: 100/100"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    android:textAlignment="viewEnd"
+                    android:fontFamily="@font/pokemon_pixel"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Controles / Log de Batalla -->
+        <FrameLayout
+            android:id="@+id/flBottomControls"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- El Log de Batalla (visible cuando hay texto) -->
+            <ScrollView
+                android:id="@+id/svBattleLog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_battle_text"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/tvBattleLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="¡Empieza la batalla!"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/pokemon_pixel"/>
+            </ScrollView>
+
+            <!-- Menú de Ataques (Oculto por defecto o viceversa) -->
+            <GridLayout
+                android:id="@+id/glMoves"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_battle_text"
+                android:padding="8dp"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnMove1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="ATAQUE 1"
+                    android:backgroundTint="#FFFFFF"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="#000000"
+                    android:fontFamily="@font/pokemon_pixel"/>
+
+                <Button
+                    android:id="@+id/btnMove2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="ATAQUE 2"
+                    android:backgroundTint="#FFFFFF"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="#000000"
+                    android:fontFamily="@font/pokemon_pixel"/>
+
+                <Button
+                    android:id="@+id/btnMove3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="ATAQUE 3"
+                    android:backgroundTint="#FFFFFF"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="#000000"
+                    android:fontFamily="@font/pokemon_pixel"/>
+
+                <Button
+                    android:id="@+id/btnMove4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp"
+                    android:text="ATAQUE 4"
+                    android:backgroundTint="#FFFFFF"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="#000000"
+                    android:fontFamily="@font/pokemon_pixel"/>
+            </GridLayout>
+
+            <!-- Botón invisible por si el Log necesita tap -->
+            <View
+                android:id="@+id/viewLogTap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"/>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

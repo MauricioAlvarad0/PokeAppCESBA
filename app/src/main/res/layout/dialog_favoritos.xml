@@ -28,14 +28,16 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="350dp"
             android:fadeScrollbars="false">
 
-            <LinearLayout
+            <GridLayout
                 android:id="@+id/llFavoritosContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:columnCount="2"
+                android:alignmentMode="alignMargins"
+                android:columnOrderPreserved="false"/>
         </ScrollView>
 
         <Button

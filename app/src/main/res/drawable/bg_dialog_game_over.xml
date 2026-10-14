@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Borde exterior oscuro simulando el óxido/marco metálico oscuro -->
+    <item>
+        <shape>
+            <solid android:color="#3E3E3E"/>
+            <corners android:radius="8dp"/>
+            <stroke android:width="4dp" android:color="#212121"/>
+        </shape>
+    </item>
+    <!-- Fondo interior metálico gris -->
+    <item android:bottom="6dp" android:right="6dp" android:left="6dp" android:top="6dp">
+        <shape>
+            <solid android:color="#5A5C67"/>
+            <corners android:radius="4dp"/>
+        </shape>
+    </item>
+</layer-list>
