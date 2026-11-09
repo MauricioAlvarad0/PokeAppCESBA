@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pokedex_bg"
+    android:padding="16dp">
+
+    <!-- Header / Título -->
+    <LinearLayout
+        android:id="@+id/llHeaderWT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_battle_text"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBackWT"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#000000"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="❓ ¿QUIÉN ES ESE POKÉMON? ❓"
+            android:textAlignment="center"
+            android:fontFamily="@font/pokemon_pixel"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <!-- Score & Streak -->
+    <LinearLayout
+        android:id="@+id/llScoreBoard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/llHeaderWT">
+
+        <TextView
+            android:id="@+id/tvScoreWT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_retro"
+            android:fontFamily="@font/pokemon_pixel"
+            android:padding="8dp"
+            android:text="PUNTOS: 0"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginEnd="4dp"/>
+
+        <TextView
+            android:id="@+id/tvStreakWT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gold_frame"
+            android:fontFamily="@font/pokemon_pixel"
+            android:padding="8dp"
+            android:text="RACHA: 0"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginHorizontal="2dp"/>
+
+        <TextView
+            android:id="@+id/tvRecordWT"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_dialog_game_over"
+            android:fontFamily="@font/pokemon_pixel"
+            android:padding="8dp"
+            android:text="RÉCORD: 0"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginStart="4dp"/>
+    </LinearLayout>
+
+    <!-- Imagen del Pokémon (Silueta) -->
+    <FrameLayout
+        android:id="@+id/flMysteryContainer"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_gold_frame"
+        app:layout_constraintTop_toBottomOf="@id/llScoreBoard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/bg_dialog_game_over"
+            android:scaleType="centerCrop"/>
+
+        <ImageView
+            android:id="@+id/ivMysterySprite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvResultBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text=""
+        android:textAlignment="center"
+        android:fontFamily="@font/pokemon_pixel"
+        android:textSize="22sp"
+        android:textColor="#FACC15"
+        android:shadowColor="#000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="1"
+        app:layout_constraintTop_toBottomOf="@id/flMysteryContainer"/>
+
+    <!-- Pistas (Hints) -->
+    <LinearLayout
+        android:id="@+id/llHints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/tvResultBanner">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHintTypeWT"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_retro_gray"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="💡 TIPO (-2)"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginEnd="4dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHintStatWT"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_retro_gray"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="💡 STAT (-3)"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginHorizontal="2dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHintCryWT"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_retro_gray"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="🔊 CRY (-3)"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginStart="4dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvHintLogWT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_dialog_game_over"
+        android:padding="8dp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="@font/pokemon_pixel"
+        android:textSize="16sp"
+        android:text="¿Podrás adivinarlo?"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/llHints"/>
+
+    <!-- Grid de Opciones -->
+    <GridLayout
+        android:id="@+id/glOptions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:columnCount="2"
+        android:rowCount="2"
+        app:layout_constraintTop_toBottomOf="@id/tvHintLogWT"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOptionA"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:background="@drawable/btn_retro_red"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOptionB"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:background="@drawable/bg_button_retro"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOptionC"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:background="@drawable/bg_button_retro"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOptionD"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="4dp"
+            android:background="@drawable/bg_button_retro"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="..."
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"/>
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

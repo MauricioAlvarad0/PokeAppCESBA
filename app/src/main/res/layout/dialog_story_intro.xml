@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6090D16"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llBossCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:background="@drawable/bg_dialog_game_over"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_gold_frame"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/tvStoryFloorTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1E293B"
+                android:fontFamily="@font/pokemon_pixel"
+                android:paddingVertical="4dp"
+                android:text="⚠️ PISO 1 DE 6 · EMERGENCIA CESBA ⚠️"
+                android:textAlignment="center"
+                android:textColor="#FACC15"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp">
+
+            <FrameLayout
+                android:layout_width="165dp"
+                android:layout_height="165dp"
+                android:background="@drawable/bg_gold_frame"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/ivStoryTeacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/docente_cesba_1" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="4dp"
+                android:background="#DC2626"
+                android:fontFamily="@font/pokemon_pixel"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="JEFE DE PISO"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvStoryTeacherName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pokemon_pixel"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="PROF. NOMBRE"
+            android:textAlignment="center"
+            android:textColor="#38BDF8"
+            android:textSize="19sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvStoryBossTeam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="Equipo Rival: 🔴 🔴 🔴"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_gold_frame"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="💬 TRANSMISIÓN ENTRANTE:"
+                android:textColor="#FACC15"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView
+                android:id="@+id/tvStoryDialogText"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:fontFamily="@font/pokemon_pixel"
+                android:lineSpacingExtra="5dp"
+                android:text="Mensaje..."
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="▼"
+                android:textAlignment="viewEnd"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAcceptMission"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/btn_retro_red"
+            android:fontFamily="@font/pokemon_pixel"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="⚔️ ¡SALVAR EL DÍA! ⚔️"
+            android:textColor="#FACC15"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</LinearLayout>

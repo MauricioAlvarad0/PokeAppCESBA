@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pokedex_bg">
+
+    <!-- Barra Superior -->
+    <LinearLayout
+        android:id="@+id/topBarFlappy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_dialog_game_over"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBackFlappy"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#000000"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🦅 FLAPPY POKÉMON 🦅"
+            android:textAlignment="center"
+            android:fontFamily="@font/pokemon_pixel"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FACC15"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"/>
+    </LinearLayout>
+
+    <!-- Panel de Marcador y Selector -->
+    <LinearLayout
+        android:id="@+id/llFlappyHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_panel_retro"
+        android:padding="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/topBarFlappy">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvFlappyScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="PUNTOS: 0"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
+            <TextView
+                android:id="@+id/tvFlappyRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="RÉCORD: 0"
+                android:textColor="#FACC15"
+                android:textSize="14sp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnChangeFlyer"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_button_retro"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="🔄 CAMBIAR VOLADOR"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:paddingHorizontal="8dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"/>
+    </LinearLayout>
+
+    <!-- Contenedor Central del Juego -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/bg_gold_frame"
+        android:padding="4dp"
+        app:layout_constraintTop_toBottomOf="@id/llFlappyHeader"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.example.pokeappcesba.FlappyGameView
+            android:id="@+id/flappyGameView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Cartel de inicio superpuesto -->
+        <LinearLayout
+            android:id="@+id/llStartOverlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_dialog_game_over"
+            android:padding="16dp">
+
+            <FrameLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/bg_gold_frame"
+                android:padding="8dp">
+                <ImageView
+                    android:id="@+id/ivFlyerPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvFlyerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CARGANDO..."
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/pokemon_pixel"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
+
+            <TextView
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:text="¡TOCA LA PANTALLA PARA VOLAR Y ESQUIVAR LAS COLUMNAS!"
+                android:textAlignment="center"
+                android:textColor="#FACC15"
+                android:fontFamily="@font/pokemon_pixel"
+                android:textSize="14sp"
+                android:layout_marginVertical="12dp"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnStartFlappy"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/btn_retro_red"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="🔥 ¡EMPEZAR VUELO! 🔥"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="16dp"
+                android:enabled="false"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"/>
+        </LinearLayout>
+
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0F172A">
+
+    <!-- SELECTION SCREEN -->
+    <LinearLayout
+        android:id="@+id/llVersusSelection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="visible">
+
+        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@drawable/bg_dialog_game_over"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <ImageView
+                android:id="@+id/btnBackVersus"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/btn_retro_gray"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="6dp"
+                android:src="@android:drawable/ic_menu_revert"
+                app:tint="#FFFFFF" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/pokemon_pixel"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                android:text="⚔️ C. BATTLE VERSUS ⚔️"
+                android:textAlignment="center"
+                android:textColor="#FACC15"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="36dp"
+                android:layout_height="36dp" />
+        </LinearLayout>
+
+        <!-- PLAYERS PANELS -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- P1 PANEL (Azul) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_dialog_game_over"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:text="🔵 JUGADOR 1"
+                        android:textColor="#38BDF8"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+
+                        <!-- SLOT 1 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+                            <ImageView
+                                android:id="@+id/ivP1Slot1"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:background="@drawable/bg_gold_frame"
+                                android:padding="2dp"
+                                android:scaleType="centerCrop"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp">
+
+                                <EditText
+                                    android:id="@+id/etP1Slot1"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="32dp"
+                                    android:background="@drawable/bg_input_retro"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:hint="P1-1"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:inputType="text"/>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnP1Slot1Rand"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginStart="4dp"
+                                    android:background="@drawable/btn_retro_gray"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:text="\?"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- SLOT 2 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+                            <ImageView
+                                android:id="@+id/ivP1Slot2"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:background="@drawable/bg_gold_frame"
+                                android:padding="2dp"
+                                android:scaleType="centerCrop"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp">
+
+                                <EditText
+                                    android:id="@+id/etP1Slot2"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="32dp"
+                                    android:background="@drawable/bg_input_retro"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:hint="P1-2"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:inputType="text"/>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnP1Slot2Rand"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginStart="4dp"
+                                    android:background="@drawable/btn_retro_gray"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:text="\?"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- SLOT 3 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+                            <ImageView
+                                android:id="@+id/ivP1Slot3"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:background="@drawable/bg_gold_frame"
+                                android:padding="2dp"
+                                android:scaleType="centerCrop"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp">
+
+                                <EditText
+                                    android:id="@+id/etP1Slot3"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="32dp"
+                                    android:background="@drawable/bg_input_retro"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:hint="P1-3"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:inputType="text"/>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnP1Slot3Rand"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginStart="4dp"
+                                    android:background="@drawable/btn_retro_gray"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:text="\?"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- P2 PANEL (Rojo) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_dialog_game_over"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:text="🔴 JUGADOR 2"
+                        android:textColor="#EF4444"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+
+                        <!-- SLOT 1 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+                            <ImageView
+                                android:id="@+id/ivP2Slot1"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:background="@drawable/bg_gold_frame"
+                                android:padding="2dp"
+                                android:scaleType="centerCrop"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp">
+
+                                <EditText
+                                    android:id="@+id/etP2Slot1"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="32dp"
+                                    android:background="@drawable/bg_input_retro"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:hint="P2-1"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:inputType="text"/>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnP2Slot1Rand"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginStart="4dp"
+                                    android:background="@drawable/btn_retro_gray"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:text="\?"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- SLOT 2 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+                            <ImageView
+                                android:id="@+id/ivP2Slot2"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:background="@drawable/bg_gold_frame"
+                                android:padding="2dp"
+                                android:scaleType="centerCrop"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp">
+
+                                <EditText
+                                    android:id="@+id/etP2Slot2"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="32dp"
+                                    android:background="@drawable/bg_input_retro"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:hint="P2-2"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:inputType="text"/>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnP2Slot2Rand"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginStart="4dp"
+                                    android:background="@drawable/btn_retro_gray"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:text="\?"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- SLOT 3 -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="4dp">
+                            <ImageView
+                                android:id="@+id/ivP2Slot3"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:background="@drawable/bg_gold_frame"
+                                android:padding="2dp"
+                                android:scaleType="centerCrop"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp">
+
+                                <EditText
+                                    android:id="@+id/etP2Slot3"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="32dp"
+                                    android:background="@drawable/bg_input_retro"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:hint="P2-3"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:inputType="text"/>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                    android:id="@+id/btnP2Slot3Rand"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginStart="4dp"
+                                    android:background="@drawable/btn_retro_gray"
+                                    android:fontFamily="@font/pokemon_pixel"
+                                    android:text="\?"
+                                    android:textColor="#FFFFFF"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnVersusRandom"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/btn_retro_gray"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="🎲 EQUIPOS ALEATORIOS (3 VS 3)"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnVersusStart"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/btn_retro_red"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="🔥 ¡INICIAR DUELO VERSUS! 🔥"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- BATTLE ARENA -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clVersusArena"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_battle_arena"
+        android:padding="12dp"
+        android:visibility="gone">
+
+        <!-- Turn Banner -->
+        <LinearLayout
+            android:id="@+id/llVersusBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_panel_retro"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvVersusTurn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="🔵 TURNO DE: JUGADOR 1"
+                android:textColor="#38BDF8"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvVersusAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pokemon_pixel"
+                android:text="J1: 3/3 | J2: 3/3"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- AREA DE BATALLA -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clVersusBattleArea"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/llVersusBanner"
+            app:layout_constraintBottom_toTopOf="@id/flVersusBottomControls">
+
+            <!-- J2 (Top Right) -->
+            <ImageView
+                android:id="@+id/ivP2Sprite"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.82"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.33" />
+
+            <LinearLayout
+                android:id="@+id/llP2Stats"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_health_box"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvP2Name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:text="P2 PKMN"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:text="Lv.50"
+                        android:textColor="#000"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#000000"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:paddingHorizontal="4dp"
+                        android:text="HP"
+                        android:textColor="#FFC107"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+                    <ProgressBar
+                        android:id="@+id/pbP2Hp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="4dp"
+                        android:progressDrawable="@drawable/hp_bar_states" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvP2HpText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HP: 100/100"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    android:textAlignment="viewEnd"
+                    android:fontFamily="@font/pokemon_pixel"/>
+            </LinearLayout>
+
+            <!-- J1 (Bottom Left) -->
+            <ImageView
+                android:id="@+id/ivP1Sprite"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.18"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.82" />
+
+            <LinearLayout
+                android:id="@+id/llP1Stats"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_health_box"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvP1Name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:text="P1 PKMN"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:text="Lv.50"
+                        android:textColor="#000"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#000000"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:paddingHorizontal="4dp"
+                        android:text="HP"
+                        android:textColor="#FFC107"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+                    <ProgressBar
+                        android:id="@+id/pbP1Hp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="4dp"
+                        android:progressDrawable="@drawable/hp_bar_states" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvP1HpText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HP: 100/100"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    android:textAlignment="viewEnd"
+                    android:fontFamily="@font/pokemon_pixel"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvVersusProjectile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvVersusFloatingDamage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:textColor="#FF3B30"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/pokemon_pixel"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- BOTTOM CONTROLS (LOG / MOVES) -->
+        <FrameLayout
+            android:id="@+id/flVersusBottomControls"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ScrollView
+                android:id="@+id/svVersusLog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_battle_text"
+                android:padding="16dp">
+                <TextView
+                    android:id="@+id/tvVersusLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pokemon_pixel"
+                    android:text="¡Duelo Versus Inicia!"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+            </ScrollView>
+
+            <GridLayout
+                android:id="@+id/glVersusMoves"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_battle_text"
+                android:columnCount="2"
+                android:padding="8dp"
+                android:rowCount="2"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/btnVersusMove1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:fontFamily="@font/pokemon_pixel"
+                    android:text="ATAQUE 1"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeColor="#000000"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/btnVersusMove2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:fontFamily="@font/pokemon_pixel"
+                    android:text="ATAQUE 2"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeColor="#000000"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/btnVersusMove3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:fontFamily="@font/pokemon_pixel"
+                    android:text="ATAQUE 3"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeColor="#000000"
+                    app:strokeWidth="2dp" />
+
+                <Button
+                    android:id="@+id/btnVersusMove4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    android:layout_rowWeight="1"
+                    android:backgroundTint="#FFFFFF"
+                    android:fontFamily="@font/pokemon_pixel"
+                    android:text="ATAQUE 4"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    app:strokeColor="#000000"
+                    app:strokeWidth="2dp" />
+            </GridLayout>
+
+            <View
+                android:id="@+id/viewVersusLogTap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
