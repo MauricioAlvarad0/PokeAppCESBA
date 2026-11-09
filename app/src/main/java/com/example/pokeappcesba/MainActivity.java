@@ -45,14 +45,13 @@ public class MainActivity extends AppCompatActivity {
         // Grid Menu Buttons
         findViewById(R.id.btnMenuPokedex).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PokedexActivity.class)));
         findViewById(R.id.btnMenuEmulator).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BattleEmulatorActivity.class)));
-        
         findViewById(R.id.btnMenuVersus).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BattleVersusActivity.class)));
         findViewById(R.id.btnMenuTorre).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, TowerActivity.class)));
         findViewById(R.id.btnMenuQuienEs).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, WhosThatPokemonActivity.class)));
+        findViewById(R.id.btnMenuSafari).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SafariActivity.class)));
+        findViewById(R.id.btnMenuMaestro).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, TypeMasterActivity.class)));
+        findViewById(R.id.btnMenuMemory).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MemoryActivity.class)));
         findViewById(R.id.btnMenuFlappy).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, FlappyPokemonActivity.class)));
-        setupMenuButton(R.id.btnMenuSafari, "Safari Pokémon");
-        setupMenuButton(R.id.btnMenuMaestro, "Maestro de Tipos");
-        setupMenuButton(R.id.btnMenuMemory, "PokéMemory");
         
         // Favoritos Dialog
         findViewById(R.id.btnMenuFavoritos).setOnClickListener(v -> {
@@ -116,15 +115,10 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        setupMenuButton(R.id.btnMenuHistorial, "Historial");
+        findViewById(R.id.btnMenuHistorial).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, HistorialActivity.class)));
         findViewById(R.id.btnMenuMedallas).setOnClickListener(v -> mostrarDialogoMedallas());
-        
-        // Mi Perfil y Configuración abren el diálogo de configuración del entrenador
-        View.OnClickListener configListener = v -> mostrarDialogoConfiguracion();
-        View btnPerfil = findViewById(R.id.btnMenuPerfil);
-        View btnConfig = findViewById(R.id.btnMenuConfiguracion);
-        if(btnPerfil != null) btnPerfil.setOnClickListener(configListener);
-        if(btnConfig != null) btnConfig.setOnClickListener(configListener);
+        findViewById(R.id.btnMenuPerfil).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PerfilActivity.class)));
+        findViewById(R.id.btnMenuConfiguracion).setOnClickListener(v -> mostrarDialogoConfiguracion());
 
         // Bottom Navigation Buttons
         findViewById(R.id.ivNavHome).setOnClickListener(v -> Toast.makeText(this, "Estás en Inicio", Toast.LENGTH_SHORT).show());

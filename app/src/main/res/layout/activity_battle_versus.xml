@@ -719,76 +719,120 @@
                     android:textSize="18sp" />
             </ScrollView>
 
-            <GridLayout
-                android:id="@+id/glVersusMoves"
+            <!-- Menú Estilizado de 4 Ataques (Estilo Arcade / RPG) -->
+            <LinearLayout
+                android:id="@+id/llVersusMovesContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_battle_text"
-                android:columnCount="2"
-                android:padding="8dp"
-                android:rowCount="2"
+                android:background="@drawable/bg_dialog_game_over"
+                android:orientation="vertical"
+                android:padding="10dp"
                 android:visibility="gone">
 
-                <Button
-                    android:id="@+id/btnVersusMove1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:layout_rowWeight="1"
-                    android:backgroundTint="#FFFFFF"
-                    android:fontFamily="@font/pokemon_pixel"
-                    android:text="ATAQUE 1"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    app:strokeColor="#000000"
-                    app:strokeWidth="2dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp"
+                    android:gravity="center_vertical">
 
-                <Button
-                    android:id="@+id/btnVersusMove2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:layout_rowWeight="1"
-                    android:backgroundTint="#FFFFFF"
-                    android:fontFamily="@font/pokemon_pixel"
-                    android:text="ATAQUE 2"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    app:strokeColor="#000000"
-                    app:strokeWidth="2dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:gravity="center"
+                        android:shadowColor="#000000"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="1"
+                        android:text="⚔️ SELECCIONA TU ATAQUE ⚔️"
+                        android:textColor="#FACC15"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnVersusMove3"
-                    android:layout_width="0dp"
+                <GridLayout
+                    android:id="@+id/glVersusMoves"
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:layout_rowWeight="1"
-                    android:backgroundTint="#FFFFFF"
-                    android:fontFamily="@font/pokemon_pixel"
-                    android:text="ATAQUE 3"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    app:strokeColor="#000000"
-                    app:strokeWidth="2dp" />
+                    android:layout_weight="1"
+                    android:columnCount="2"
+                    android:rowCount="2">
 
-                <Button
-                    android:id="@+id/btnVersusMove4"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    android:layout_rowWeight="1"
-                    android:backgroundTint="#FFFFFF"
-                    android:fontFamily="@font/pokemon_pixel"
-                    android:text="ATAQUE 4"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    app:strokeColor="#000000"
-                    app:strokeWidth="2dp" />
-            </GridLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnVersusMove1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/btn_retro_red"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:shadowColor="#000000"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="1"
+                        android:text="🔥 ATAQUE 1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnVersusMove2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/bg_button_retro"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:shadowColor="#000000"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="1"
+                        android:text="⚡ ATAQUE 2"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnVersusMove3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/bg_gold_frame"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:shadowColor="#000000"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="1"
+                        android:text="💥 ATAQUE 3"
+                        android:textColor="#FACC15"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnVersusMove4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/btn_retro_gray"
+                        android:fontFamily="@font/pokemon_pixel"
+                        android:shadowColor="#000000"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="1"
+                        android:text="⚔️ ATAQUE 4"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </GridLayout>
+            </LinearLayout>
 
             <View
                 android:id="@+id/viewVersusLogTap"

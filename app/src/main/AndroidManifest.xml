@@ -46,5 +46,15 @@
 
         <activity android:name=".FlappyPokemonActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
 
+        <activity android:name=".SafariActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
+        <activity android:name=".TypeMasterActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
+        <activity android:name=".MemoryActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
+        <activity android:name=".HistorialActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
+        <activity android:name=".PerfilActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
     </application>
 </manifest>

@@ -83,6 +83,13 @@ public class BattleEmulatorActivity extends AppCompatActivity {
         ivPreviewP2 = findViewById(R.id.ivPreviewP2);
         btnPrepareBattle = findViewById(R.id.btnPrepareBattle);
 
+        findViewById(R.id.btnRandomP1).setOnClickListener(v -> randomPokemon(etP1));
+        findViewById(R.id.btnRandomP2).setOnClickListener(v -> randomPokemon(etP2));
+        findViewById(R.id.btnRandomBoth).setOnClickListener(v -> {
+            randomPokemon(etP1);
+            randomPokemon(etP2);
+        });
+
         tvP1Name = findViewById(R.id.tvP1Name);
         tvP2Name = findViewById(R.id.tvP2Name);
         tvP1Hp = findViewById(R.id.tvP1Hp);
@@ -97,6 +104,11 @@ public class BattleEmulatorActivity extends AppCompatActivity {
         setupPreviewListeners();
 
         btnPrepareBattle.setOnClickListener(v -> validateAndFetch());
+    }
+
+    private void randomPokemon(EditText et) {
+        int randomId = (int) (Math.random() * 898) + 1;
+        et.setText(String.valueOf(randomId));
     }
 
     private void mostrarConfirmacionSalida() {
@@ -327,47 +339,112 @@ public class BattleEmulatorActivity extends AppCompatActivity {
         ImageView attackerImg = isP1Turn ? ivP1Sprite : ivP2Sprite;
         ImageView defenderImg = isP1Turn ? ivP2Sprite : ivP1Sprite;
 
-        int moveX = isP1Turn ? 100 : -100;
-        int moveY = isP1Turn ? -100 : 100;
+        TextView tvProjectile = findViewById(R.id.tvEmulatorProjectile);
+        TextView tvFloatingDamage = findViewById(R.id.tvEmulatorFloatingDamage);
+
+        // 1. Animación de embestida (acercarse un poco y volver)
+        int moveX = isP1Turn ? 40 : -40;
+        int moveY = isP1Turn ? -40 : 40;
 
         ViewPropertyAnimator anim = attackerImg.animate().translationX(moveX).translationY(moveY).setDuration(150);
         anim.withEndAction(() -> {
             attackerImg.animate().translationX(0).translationY(0).setDuration(150).start();
             
-            // Impacto
-            defenderImg.setColorFilter(Color.parseColor("#80FF0000")); // Rojo transparente
-            defenderImg.postDelayed(defenderImg::clearColorFilter, 250);
-            
-            // Efecto de sonido de impacto
-            new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT, 150);
+            if (tvProjectile != null && tvFloatingDamage != null) {
+                float startX = attackerImg.getX() + (attackerImg.getWidth() / 2f) - 40f;
+                float startY = attackerImg.getY() + (attackerImg.getHeight() / 2f) - 40f;
+                float endX = defenderImg.getX() + (defenderImg.getWidth() / 2f) - 40f;
+                float endY = defenderImg.getY() + (defenderImg.getHeight() / 2f) - 40f;
 
-            // Reducir HP
-            if (isP1Turn) {
-                p2CurrentHp = Math.max(0, p2CurrentHp - damage);
+                tvProjectile.setText(isP1Turn ? "🔥" : "⚡");
+                tvProjectile.setX(startX);
+                tvProjectile.setY(startY);
+                tvProjectile.setScaleX(0.6f);
+                tvProjectile.setScaleY(0.6f);
+                tvProjectile.setRotation(0f);
+                tvProjectile.setVisibility(View.VISIBLE);
+
+                tvProjectile.animate()
+                        .x(endX)
+                        .y(endY)
+                        .scaleX(1.4f)
+                        .scaleY(1.4f)
+                        .rotation(360f)
+                        .setDuration(280)
+                        .setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator())
+                        .withEndAction(() -> {
+                            // 3. Impacto
+                            tvProjectile.setText("💥");
+                            defenderImg.setColorFilter(Color.argb(180, 255, 40, 40));
+
+                            // Efecto de sonido de impacto
+                            new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT, 150);
+
+                            // Daño flotante
+                            tvFloatingDamage.setText("-" + damage + " HP");
+                            tvFloatingDamage.setX(endX - 20f);
+                            tvFloatingDamage.setY(endY - 20f);
+                            tvFloatingDamage.setAlpha(1f);
+                            tvFloatingDamage.setVisibility(View.VISIBLE);
+                            tvFloatingDamage.animate()
+                                    .y(endY - 110f)
+                                    .alpha(0f)
+                                    .setDuration(800)
+                                    .withEndAction(() -> tvFloatingDamage.setVisibility(View.GONE))
+                                    .start();
+
+                            // Shake en el defensor
+                            defenderImg.animate().translationX(28f).setDuration(50).withEndAction(() ->
+                                defenderImg.animate().translationX(-28f).setDuration(50).withEndAction(() ->
+                                    defenderImg.animate().translationX(18f).setDuration(50).withEndAction(() ->
+                                        defenderImg.animate().translationX(-18f).setDuration(50).withEndAction(() ->
+                                            defenderImg.animate().translationX(0f).setDuration(50).withEndAction(() -> {
+                                                defenderImg.clearColorFilter();
+                                                tvProjectile.setVisibility(View.GONE);
+                                                applyDamageAndEndTurn(damage, attacker, defender, moveName);
+                                            }).start()
+                                        ).start()
+                                    ).start()
+                                ).start()
+                            ).start();
+                        }).start();
             } else {
-                p1CurrentHp = Math.max(0, p1CurrentHp - damage);
-            }
-
-            logMessage("● Turno " + turnNumber);
-            logMessage(attacker.name.toUpperCase() + " usó " + moveName + ".");
-            logMessage("¡Causa " + damage + " puntos de daño!");
-            
-            int hpLeft = isP1Turn ? p2CurrentHp : p1CurrentHp;
-            logMessage(defender.name.toUpperCase() + " queda con " + hpLeft + " HP.\n");
-
-            updateHpBars();
-
-            if (p1CurrentHp == 0 || p2CurrentHp == 0) {
-                battleEnded = true;
-                
-                // Mostrar el modal de victoria directamente
-                showWinnerDialog(p1CurrentHp > 0 ? p1 : p2, p1CurrentHp > 0 ? p1CurrentHp : p2CurrentHp);
-            } else {
-                turnNumber++;
-                isP1Turn = !isP1Turn;
-                setupTurnUI();
+                // Fallback sin proyectiles
+                defenderImg.setColorFilter(Color.parseColor("#80FF0000")); // Rojo transparente
+                defenderImg.postDelayed(defenderImg::clearColorFilter, 250);
+                new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT, 150);
+                applyDamageAndEndTurn(damage, attacker, defender, moveName);
             }
         }).start();
+    }
+
+    private void applyDamageAndEndTurn(int damage, Pokemon attacker, Pokemon defender, String moveName) {
+        // Reducir HP
+        if (isP1Turn) {
+            p2CurrentHp = Math.max(0, p2CurrentHp - damage);
+        } else {
+            p1CurrentHp = Math.max(0, p1CurrentHp - damage);
+        }
+
+        logMessage("● Turno " + turnNumber);
+        logMessage(attacker.name.toUpperCase() + " usó " + moveName + ".");
+        logMessage("¡Causa " + damage + " puntos de daño!");
+        
+        int hpLeft = isP1Turn ? p2CurrentHp : p1CurrentHp;
+        logMessage(defender.name.toUpperCase() + " queda con " + hpLeft + " HP.\n");
+
+        updateHpBars();
+
+        if (p1CurrentHp == 0 || p2CurrentHp == 0) {
+            battleEnded = true;
+            
+            // Mostrar el modal de victoria directamente
+            showWinnerDialog(p1CurrentHp > 0 ? p1 : p2, p1CurrentHp > 0 ? p1CurrentHp : p2CurrentHp);
+        } else {
+            turnNumber++;
+            isP1Turn = !isP1Turn;
+            setupTurnUI();
+        }
     }
 
 
@@ -429,9 +506,38 @@ public class BattleEmulatorActivity extends AppCompatActivity {
 
     private void saveBattleHistory(String winnerName, String loserName) {
         SharedPreferences prefsHistorial = getSharedPreferences("PokeHistorial", MODE_PRIVATE);
+        
+        // Mantener compatibilidad con historial viejo en texto si se requiere, o simplemente usar JSON nuevo
         String currentHistorial = prefsHistorial.getString("historial_batallas", "");
-        String newRecord = "⚔️ " + winnerName + " ganó en " + turnNumber + " turnos vs " + loserName;
-        prefsHistorial.edit().putString("historial_batallas", currentHistorial + newRecord + "\n").apply();
+        String newRecordStr = "⚔️ " + winnerName + " ganó en " + turnNumber + " turnos vs " + loserName;
+        prefsHistorial.edit().putString("historial_batallas", currentHistorial + newRecordStr + "\n").apply();
+
+        // Nuevo historial en JSON
+        String json = prefsHistorial.getString("historial_batallas_json", "[]");
+        com.google.gson.Gson gson = new com.google.gson.Gson();
+        java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<java.util.List<com.example.pokeappcesba.models.BattleRecord>>() {}.getType();
+        java.util.List<com.example.pokeappcesba.models.BattleRecord> records = gson.fromJson(json, type);
+        
+        if (records == null) {
+            records = new java.util.ArrayList<>();
+        }
+        
+        String dateStr = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(new java.util.Date());
+        String p1Sprite = p1.sprites.frontDefault;
+        String p2Sprite = p2.sprites.frontDefault;
+        
+        com.example.pokeappcesba.models.BattleRecord record = new com.example.pokeappcesba.models.BattleRecord(
+                dateStr, winnerName, p1.name.toUpperCase(), p1Sprite, p2.name.toUpperCase(), p2Sprite
+        );
+        
+        records.add(record);
+        
+        // Guardar maximo los ultimos 50 combates por si acaso
+        if (records.size() > 50) {
+            records.remove(0);
+        }
+        
+        prefsHistorial.edit().putString("historial_batallas_json", gson.toJson(records)).apply();
     }
 
     private int getStat(Pokemon p, String statName) {

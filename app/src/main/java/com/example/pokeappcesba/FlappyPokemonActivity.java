@@ -22,7 +22,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -45,6 +49,7 @@ public class FlappyPokemonActivity extends AppCompatActivity implements FlappyGa
     private SharedPreferences prefs;
     private String userUid = "default";
     private Pokemon currentFlyer;
+    private CustomTarget<Bitmap> glideTarget;
 
     // Flying Pokemon IDs: Charizard, Butterfree, Pidgeot, Fearow, Golbat, Aerodactyl, Articuno, Zapdos, Moltres, Dragonite, Crobat, Lugia, Ho-Oh, Rayquaza
     private final int[] flyingPokemonIds = {6, 12, 18, 22, 42, 142, 144, 145, 146, 149, 169, 249, 250, 384};
@@ -102,21 +107,24 @@ public class FlappyPokemonActivity extends AppCompatActivity implements FlappyGa
                     currentFlyer = response.body();
                     tvFlyerName.setText(currentFlyer.name.toUpperCase());
                     if (currentFlyer.sprites != null && currentFlyer.sprites.frontDefault != null) {
+                        
+                        glideTarget = new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                ivFlyerPreview.setImageBitmap(resource);
+                                flappyGameView.setPokemonBitmap(resource);
+                                btnStartFlappy.setEnabled(true);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+                        };
+                        
                         Glide.with(FlappyPokemonActivity.this)
                                 .asBitmap()
                                 .load(currentFlyer.sprites.frontDefault)
-                                .into(new CustomTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                        ivFlyerPreview.setImageBitmap(resource);
-                                        flappyGameView.setPokemonBitmap(resource);
-                                        btnStartFlappy.setEnabled(true);
-                                    }
-
-                                    @Override
-                                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                                    }
-                                });
+                                .into(glideTarget);
                     }
                 }
             }
@@ -148,6 +156,19 @@ public class FlappyPokemonActivity extends AppCompatActivity implements FlappyGa
             prefs.edit().putInt("flappy_record", bestRecord).apply();
             getSharedPreferences("PokePrefs", MODE_PRIVATE).edit().putInt("flappy_record", bestRecord).apply();
             tvFlappyRecord.setText("RÉCORD: " + bestRecord);
+
+            // Sincronizar récord en Firebase Firestore
+            if (!userUid.equals("default")) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("flappy_record", bestRecord);
+
+                FirebaseFirestore.getInstance()
+                        .collection("users")
+                        .document(userUid)
+                        .collection("Records")
+                        .document("minijuegos")
+                        .set(data, SetOptions.merge());
+            }
         }
 
         btnChangeFlyer.setEnabled(true);

@@ -60,9 +60,11 @@ public class BattleVersusActivity extends AppCompatActivity {
     // Bottom Controls
     private ScrollView svVersusLog;
     private TextView tvVersusLog;
-    private GridLayout glVersusMoves;
+    private View llVersusMovesContainer;
     private Button[] btnVersusMoves = new Button[4];
     private View viewVersusLogTap;
+    
+    private static final String[] MOVE_ICONS = {"🔥 ", "⚡ ", "💥 ", "⚔️ "};
 
     // Battle State
     private int currentP1Index = 0;
@@ -203,7 +205,7 @@ public class BattleVersusActivity extends AppCompatActivity {
 
         svVersusLog = findViewById(R.id.svVersusLog);
         tvVersusLog = findViewById(R.id.tvVersusLog);
-        glVersusMoves = findViewById(R.id.glVersusMoves);
+        llVersusMovesContainer = findViewById(R.id.llVersusMovesContainer);
         btnVersusMoves[0] = findViewById(R.id.btnVersusMove1);
         btnVersusMoves[1] = findViewById(R.id.btnVersusMove2);
         btnVersusMoves[2] = findViewById(R.id.btnVersusMove3);
@@ -215,18 +217,18 @@ public class BattleVersusActivity extends AppCompatActivity {
         btnVersusRandom.setOnClickListener(v -> fillRandomTeams());
         btnVersusStart.setOnClickListener(v -> startVersusBattle());
 
-        findViewById(R.id.btnP1Slot1Rand).setOnClickListener(v -> loadRandomPokemonForSlot(new Random().nextInt(251) + 1, 1, 0));
-        findViewById(R.id.btnP1Slot2Rand).setOnClickListener(v -> loadRandomPokemonForSlot(new Random().nextInt(251) + 1, 1, 1));
-        findViewById(R.id.btnP1Slot3Rand).setOnClickListener(v -> loadRandomPokemonForSlot(new Random().nextInt(251) + 1, 1, 2));
+        findViewById(R.id.btnP1Slot1Rand).setOnClickListener(v -> randomPokemonForEditText(etP1Slot1));
+        findViewById(R.id.btnP1Slot2Rand).setOnClickListener(v -> randomPokemonForEditText(etP1Slot2));
+        findViewById(R.id.btnP1Slot3Rand).setOnClickListener(v -> randomPokemonForEditText(etP1Slot3));
 
-        findViewById(R.id.btnP2Slot1Rand).setOnClickListener(v -> loadRandomPokemonForSlot(new Random().nextInt(251) + 1, 2, 0));
-        findViewById(R.id.btnP2Slot2Rand).setOnClickListener(v -> loadRandomPokemonForSlot(new Random().nextInt(251) + 1, 2, 1));
-        findViewById(R.id.btnP2Slot3Rand).setOnClickListener(v -> loadRandomPokemonForSlot(new Random().nextInt(251) + 1, 2, 2));
+        findViewById(R.id.btnP2Slot1Rand).setOnClickListener(v -> randomPokemonForEditText(etP2Slot1));
+        findViewById(R.id.btnP2Slot2Rand).setOnClickListener(v -> randomPokemonForEditText(etP2Slot2));
+        findViewById(R.id.btnP2Slot3Rand).setOnClickListener(v -> randomPokemonForEditText(etP2Slot3));
 
         viewVersusLogTap.setOnClickListener(v -> {
-            if (glVersusMoves.getVisibility() == View.GONE && btnVersusMoves[0].isEnabled()) {
+            if (llVersusMovesContainer.getVisibility() == View.GONE && btnVersusMoves[0].isEnabled()) {
                 svVersusLog.setVisibility(View.GONE);
-                glVersusMoves.setVisibility(View.VISIBLE);
+                llVersusMovesContainer.setVisibility(View.VISIBLE);
                 viewVersusLogTap.setVisibility(View.GONE);
             }
         });
@@ -238,7 +240,7 @@ public class BattleVersusActivity extends AppCompatActivity {
                 if (rawText.equals("-")) return;
                 String cleanMove = rawText.replace("🔥 ", "").replace("⚡ ", "").replace("💥 ", "").replace("⚔️ ", "").trim();
                 
-                glVersusMoves.setVisibility(View.GONE);
+                llVersusMovesContainer.setVisibility(View.GONE);
                 svVersusLog.setVisibility(View.VISIBLE);
                 viewVersusLogTap.setVisibility(View.VISIBLE);
                 
@@ -255,9 +257,14 @@ public class BattleVersusActivity extends AppCompatActivity {
         p2Loaded = 0;
         Random r = new Random();
         for (int i = 0; i < 3; i++) {
-            loadRandomPokemonForSlot(r.nextInt(251) + 1, 1, i);
-            loadRandomPokemonForSlot(r.nextInt(251) + 1, 2, i);
+            loadRandomPokemonForSlot(r.nextInt(898) + 1, 1, i);
+            loadRandomPokemonForSlot(r.nextInt(898) + 1, 2, i);
         }
+    }
+
+    private void randomPokemonForEditText(EditText et) {
+        int randomId = new Random().nextInt(898) + 1;
+        et.setText(String.valueOf(randomId));
     }
 
     private void loadRandomPokemonForSlot(int id, int player, int slotIndex) {
@@ -267,22 +274,14 @@ public class BattleVersusActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     BattleEngine.BattlePokemon bp = new BattleEngine.BattlePokemon(response.body());
                     if (player == 1) {
-                        if (p1Team.size() > slotIndex) {
-                            p1Team.set(slotIndex, bp);
-                        } else {
-                            while(p1Team.size() < slotIndex) p1Team.add(null);
-                            p1Team.add(bp);
-                            p1Loaded++;
-                        }
+                        while(p1Team.size() <= slotIndex) p1Team.add(null);
+                        p1Team.set(slotIndex, bp);
+                        p1Loaded++;
                         updateSlotUI(1, slotIndex, bp);
                     } else {
-                        if (p2Team.size() > slotIndex) {
-                            p2Team.set(slotIndex, bp);
-                        } else {
-                            while(p2Team.size() < slotIndex) p2Team.add(null);
-                            p2Team.add(bp);
-                            p2Loaded++;
-                        }
+                        while(p2Team.size() <= slotIndex) p2Team.add(null);
+                        p2Team.set(slotIndex, bp);
+                        p2Loaded++;
                         updateSlotUI(2, slotIndex, bp);
                     }
                     if (p1Loaded >= 3 && p2Loaded >= 3) {
@@ -312,17 +311,97 @@ public class BattleVersusActivity extends AppCompatActivity {
     }
 
     private void startVersusBattle() {
-        if (p1Team.size() < 3 || p2Team.size() < 3) {
-            Toast.makeText(this, "Debe cargar todos los Pokémon", Toast.LENGTH_SHORT).show();
+        btnVersusStart.setEnabled(false);
+
+        // Si ya estan cargados los 6, iniciamos la batalla directo
+        if (p1Team.size() == 3 && p2Team.size() == 3 && p1Loaded >= 3 && p2Loaded >= 3) {
+            finishStartingBattle();
             return;
         }
-        
+
+        // Si no, cargamos los nombres/IDs que están en las cajas de texto
+        p1Team.clear();
+        p2Team.clear();
+        p1Loaded = 0;
+        p2Loaded = 0;
+
+        String[] p1Ids = {
+            etP1Slot1.getText().toString().trim(),
+            etP1Slot2.getText().toString().trim(),
+            etP1Slot3.getText().toString().trim()
+        };
+
+        String[] p2Ids = {
+            etP2Slot1.getText().toString().trim(),
+            etP2Slot2.getText().toString().trim(),
+            etP2Slot3.getText().toString().trim()
+        };
+
+        boolean allFilled = true;
+        for (int i = 0; i < 3; i++) {
+            if (p1Ids[i].isEmpty() || p2Ids[i].isEmpty()) {
+                allFilled = false;
+                break;
+            }
+        }
+
+        if (!allFilled) {
+            Toast.makeText(this, "Debe ingresar el ID/Nombre de todos los Pokémon", Toast.LENGTH_SHORT).show();
+            btnVersusStart.setEnabled(true);
+            return;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            loadPokemonForBattle(p1Ids[i], 1, i);
+            loadPokemonForBattle(p2Ids[i], 2, i);
+        }
+    }
+
+    private void loadPokemonForBattle(String idOrName, int player, int slotIndex) {
+        apiService.getPokemon(idOrName.toLowerCase()).enqueue(new Callback<Pokemon>() {
+            @Override
+            public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    BattleEngine.BattlePokemon bp = new BattleEngine.BattlePokemon(response.body());
+                    if (player == 1) {
+                        while(p1Team.size() <= slotIndex) p1Team.add(null);
+                        p1Team.set(slotIndex, bp);
+                        p1Loaded++;
+                    } else {
+                        while(p2Team.size() <= slotIndex) p2Team.add(null);
+                        p2Team.set(slotIndex, bp);
+                        p2Loaded++;
+                    }
+                    
+                    if (p1Loaded >= 3 && p2Loaded >= 3) {
+                        boolean allValid = true;
+                        for(int i=0;i<3;i++) {
+                            if (p1Team.size()<=i || p1Team.get(i)==null || p2Team.size()<=i || p2Team.get(i)==null) {
+                                allValid = false;
+                            }
+                        }
+                        if(allValid) finishStartingBattle();
+                    }
+                } else {
+                    Toast.makeText(BattleVersusActivity.this, "Error al cargar: " + idOrName, Toast.LENGTH_SHORT).show();
+                    btnVersusStart.setEnabled(true);
+                }
+            }
+            @Override
+            public void onFailure(Call<Pokemon> call, Throwable t) {
+                Toast.makeText(BattleVersusActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
+                btnVersusStart.setEnabled(true);
+            }
+        });
+    }
+
+    private void finishStartingBattle() {
         llVersusSelection.setVisibility(View.GONE);
         clVersusArena.setVisibility(View.VISIBLE);
-        
+
         currentP1Index = 0;
         currentP2Index = 0;
-        
+
         for (BattleEngine.BattlePokemon bp : p1Team) bp.currentHp = bp.maxHp;
         for (BattleEngine.BattlePokemon bp : p2Team) bp.currentHp = bp.maxHp;
 
@@ -331,9 +410,10 @@ public class BattleVersusActivity extends AppCompatActivity {
         battleEnded = false;
         p1SelectedMove = null;
         p2SelectedMove = null;
-
-        iniciarMusicaBatalla();
         
+        iniciarMusicaBatalla();
+
+        updateArenaUI();
         setupTurnUI();
     }
 
@@ -382,7 +462,7 @@ public class BattleVersusActivity extends AppCompatActivity {
     private void loadMovesFor(BattleEngine.BattlePokemon bp) {
         for (int i = 0; i < 4; i++) {
             if (i < bp.moves.size()) {
-                btnVersusMoves[i].setText(bp.moves.get(i).toUpperCase());
+                btnVersusMoves[i].setText(MOVE_ICONS[i] + bp.moves.get(i).toUpperCase());
                 btnVersusMoves[i].setEnabled(true);
             } else {
                 btnVersusMoves[i].setText("-");
@@ -433,39 +513,94 @@ public class BattleVersusActivity extends AppCompatActivity {
     private void executeAttack(BattleEngine.BattlePokemon attacker, BattleEngine.BattlePokemon defender, int attackerId, String move, Runnable onComplete) {
         if (battleEnded || isFinishing() || isDestroyed()) return;
         int dmg = BattleEngine.calculateDamage(attacker.attack, defender.defense);
-        defender.currentHp -= dmg;
         
         logBattle(attacker.pokemon.name.toUpperCase() + " usó " + move + ".");
         
-        ImageView targetView = (attackerId == 1) ? ivP2Sprite : ivP1Sprite;
+        ImageView attackerView = (attackerId == 1) ? ivP1Sprite : ivP2Sprite;
+        ImageView defenderView = (attackerId == 1) ? ivP2Sprite : ivP1Sprite;
         
-        tvVersusProjectile.setText(new Random().nextBoolean() ? "🔥" : "⚡");
-        tvVersusProjectile.setVisibility(View.VISIBLE);
+        // 1. Animación de embestida
+        int moveX = (attackerId == 1) ? 40 : -40;
+        int moveY = (attackerId == 1) ? -40 : 40;
+
+        attackerView.animate().translationX(moveX).translationY(moveY).setDuration(150).withEndAction(() -> {
+            attackerView.animate().translationX(0).translationY(0).setDuration(150).start();
+            
+            if (tvVersusProjectile != null && tvVersusFloatingDamage != null) {
+                float startX = attackerView.getX() + (attackerView.getWidth() / 2f) - 40f;
+                float startY = attackerView.getY() + (attackerView.getHeight() / 2f) - 40f;
+                float endX = defenderView.getX() + (defenderView.getWidth() / 2f) - 40f;
+                float endY = defenderView.getY() + (defenderView.getHeight() / 2f) - 40f;
+
+                tvVersusProjectile.setText(new Random().nextBoolean() ? "🔥" : "⚡");
+                tvVersusProjectile.setX(startX);
+                tvVersusProjectile.setY(startY);
+                tvVersusProjectile.setScaleX(0.6f);
+                tvVersusProjectile.setScaleY(0.6f);
+                tvVersusProjectile.setRotation(0f);
+                tvVersusProjectile.setVisibility(View.VISIBLE);
+
+                tvVersusProjectile.animate()
+                        .x(endX)
+                        .y(endY)
+                        .scaleX(1.4f)
+                        .scaleY(1.4f)
+                        .rotation(360f)
+                        .setDuration(280)
+                        .setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator())
+                        .withEndAction(() -> {
+                            // 3. Impacto
+                            tvVersusProjectile.setText("💥");
+                            defenderView.setColorFilter(Color.argb(180, 255, 40, 40));
+
+                            // Efecto de sonido de impacto
+                            new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT, 150);
+
+                            // Daño flotante
+                            tvVersusFloatingDamage.setText("-" + dmg + " HP");
+                            tvVersusFloatingDamage.setX(endX - 20f);
+                            tvVersusFloatingDamage.setY(endY - 20f);
+                            tvVersusFloatingDamage.setAlpha(1f);
+                            tvVersusFloatingDamage.setVisibility(View.VISIBLE);
+                            tvVersusFloatingDamage.animate()
+                                    .y(endY - 110f)
+                                    .alpha(0f)
+                                    .setDuration(800)
+                                    .withEndAction(() -> tvVersusFloatingDamage.setVisibility(View.GONE))
+                                    .start();
+
+                            // Shake en el defensor
+                            defenderView.animate().translationX(28f).setDuration(50).withEndAction(() ->
+                                defenderView.animate().translationX(-28f).setDuration(50).withEndAction(() ->
+                                    defenderView.animate().translationX(18f).setDuration(50).withEndAction(() ->
+                                        defenderView.animate().translationX(-18f).setDuration(50).withEndAction(() ->
+                                            defenderView.animate().translationX(0f).setDuration(50).withEndAction(() -> {
+                                                defenderView.clearColorFilter();
+                                                tvVersusProjectile.setVisibility(View.GONE);
+                                                applyDamageAndEndTurn(dmg, attacker, defender, onComplete);
+                                            }).start()
+                                        ).start()
+                                    ).start()
+                                ).start()
+                            ).start();
+                        }).start();
+            } else {
+                applyDamageAndEndTurn(dmg, attacker, defender, onComplete);
+            }
+        }).start();
+    }
+
+    private void applyDamageAndEndTurn(int dmg, BattleEngine.BattlePokemon attacker, BattleEngine.BattlePokemon defender, Runnable onComplete) {
+        defender.currentHp -= dmg;
+        logBattle("¡Causa " + dmg + " puntos de daño!");
+        if (defender.currentHp < 0) defender.currentHp = 0;
+        logBattle(defender.pokemon.name.toUpperCase() + " queda con " + defender.currentHp + " HP.");
+        playCry(attacker.pokemon);
+        updateArenaUI();
         
         battleHandler.postDelayed(() -> {
-            if (battleEnded || isFinishing() || isDestroyed()) return;
-            tvVersusProjectile.setVisibility(View.INVISIBLE);
-            targetView.setColorFilter(Color.RED);
-            
-            tvVersusFloatingDamage.setText("-" + dmg + " HP");
-            tvVersusFloatingDamage.setVisibility(View.VISIBLE);
-            new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT, 150);
-            
-            logBattle("¡Causa " + dmg + " puntos de daño!");
-            if (defender.currentHp < 0) defender.currentHp = 0;
-            logBattle(defender.pokemon.name.toUpperCase() + " queda con " + defender.currentHp + " HP.");
-            playCry(attacker.pokemon);
-            updateArenaUI();
-            
-            battleHandler.postDelayed(() -> {
-                if (battleEnded || isFinishing() || isDestroyed()) return;
-                targetView.clearColorFilter();
-                tvVersusFloatingDamage.setVisibility(View.INVISIBLE);
-                battleHandler.postDelayed(() -> {
-                    if (!battleEnded && !isFinishing() && !isDestroyed()) onComplete.run();
-                }, 500);
-            }, 300);
-        }, 300);
+            if (!battleEnded && !isFinishing() && !isDestroyed()) onComplete.run();
+        }, 500);
     }
 
     private void checkFaint() {
@@ -616,6 +751,8 @@ public class BattleVersusActivity extends AppCompatActivity {
             prefsPerfil.edit().putInt("versus_derrotas", der + 1).apply();
         }
 
+        saveBattleHistory(winnerPlayer);
+
         detenerMusicaBatalla();
 
         abrirDialogoRetro("🏆 ¡JUGADOR " + winnerPlayer + " GANA! 🏆", 
@@ -625,6 +762,40 @@ public class BattleVersusActivity extends AppCompatActivity {
             this::finish, 
             null, 
             R.drawable.ic_medallas);
+    }
+
+    private void saveBattleHistory(int winnerPlayer) {
+        SharedPreferences prefsHistorial = getSharedPreferences("PokeHistorial", MODE_PRIVATE);
+        
+        String p1Name = "J1 " + (p1Team.size() > 0 ? p1Team.get(0).pokemon.name.toUpperCase() : "");
+        String p1Sprite = p1Team.size() > 0 ? p1Team.get(0).pokemon.sprites.frontDefault : "";
+        String p2Name = "J2 " + (p2Team.size() > 0 ? p2Team.get(0).pokemon.name.toUpperCase() : "");
+        String p2Sprite = p2Team.size() > 0 ? p2Team.get(0).pokemon.sprites.frontDefault : "";
+        
+        String winnerName = winnerPlayer == 1 ? p1Name : p2Name;
+
+        String json = prefsHistorial.getString("historial_batallas_json", "[]");
+        com.google.gson.Gson gson = new com.google.gson.Gson();
+        java.lang.reflect.Type type = new com.google.gson.reflect.TypeToken<java.util.List<com.example.pokeappcesba.models.BattleRecord>>() {}.getType();
+        java.util.List<com.example.pokeappcesba.models.BattleRecord> records = gson.fromJson(json, type);
+        
+        if (records == null) {
+            records = new java.util.ArrayList<>();
+        }
+        
+        String dateStr = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(new java.util.Date());
+        
+        com.example.pokeappcesba.models.BattleRecord record = new com.example.pokeappcesba.models.BattleRecord(
+                dateStr, winnerName, p1Name, p1Sprite, p2Name, p2Sprite
+        );
+        
+        records.add(record);
+        
+        if (records.size() > 50) {
+            records.remove(0);
+        }
+        
+        prefsHistorial.edit().putString("historial_batallas_json", gson.toJson(records)).apply();
     }
 
     private void logBattle(String text) {
