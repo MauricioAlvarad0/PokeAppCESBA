@@ -3,6 +3,7 @@ package com.example.pokeappcesba;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -35,6 +36,7 @@ public class TypeMasterActivity extends AppCompatActivity {
     private boolean isAnswering = false;
 
     private SharedPreferences prefs;
+    private MediaPlayer bgmPlayer;
 
     // Type relationship data
     private static final String[][] TYPE_MATCHUPS = {
@@ -88,6 +90,7 @@ public class TypeMasterActivity extends AppCompatActivity {
 
         updateScoreBoard();
         loadNextQuestion();
+        iniciarMusicaBatalla();
     }
 
     @SuppressLint("SetTextI18n")
@@ -184,8 +187,61 @@ public class TypeMasterActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        detenerMusicaBatalla();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iniciarMusicaBatalla();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        detenerMusicaBatalla();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        detenerMusicaBatalla();
         if (countDownTimer != null) countDownTimer.cancel();
+    }
+
+    private void iniciarMusicaBatalla() {
+        SharedPreferences prefs = getSharedPreferences("PokePrefs", MODE_PRIVATE);
+        boolean soundEnabled = prefs.getBoolean("sound_enabled", true);
+        if (soundEnabled) {
+            try {
+                if (bgmPlayer == null) {
+                    int rawId = getResources().getIdentifier("bgm_wild_battle", "raw", getPackageName());
+                    if (rawId != 0) {
+                        bgmPlayer = MediaPlayer.create(this, rawId);
+                        if (bgmPlayer != null) {
+                            bgmPlayer.setLooping(true);
+                            bgmPlayer.setVolume(0.35f, 0.35f);
+                            bgmPlayer.start();
+                        }
+                    }
+                } else if (!bgmPlayer.isPlaying()) {
+                    bgmPlayer.start();
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void detenerMusicaBatalla() {
+        if (bgmPlayer != null) {
+            try {
+                if (bgmPlayer.isPlaying()) {
+                    bgmPlayer.stop();
+                }
+                bgmPlayer.release();
+            } catch (Exception ignored) {}
+            bgmPlayer = null;
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.example.pokeappcesba;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -50,6 +51,7 @@ public class MemoryActivity extends AppCompatActivity {
     private int bestMoves = 999;
 
     private SharedPreferences prefs;
+    private MediaPlayer bgmPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,65 @@ public class MemoryActivity extends AppCompatActivity {
 
         updateScoreBoard();
         startNewGame();
+        iniciarMusicaBatalla();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detenerMusicaBatalla();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iniciarMusicaBatalla();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        detenerMusicaBatalla();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detenerMusicaBatalla();
+    }
+
+    private void iniciarMusicaBatalla() {
+        SharedPreferences prefs = getSharedPreferences("PokePrefs", MODE_PRIVATE);
+        boolean soundEnabled = prefs.getBoolean("sound_enabled", true);
+        if (soundEnabled) {
+            try {
+                if (bgmPlayer == null) {
+                    int rawId = getResources().getIdentifier("bgm_wild_battle", "raw", getPackageName());
+                    if (rawId != 0) {
+                        bgmPlayer = MediaPlayer.create(this, rawId);
+                        if (bgmPlayer != null) {
+                            bgmPlayer.setLooping(true);
+                            bgmPlayer.setVolume(0.35f, 0.35f);
+                            bgmPlayer.start();
+                        }
+                    }
+                } else if (!bgmPlayer.isPlaying()) {
+                    bgmPlayer.start();
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void detenerMusicaBatalla() {
+        if (bgmPlayer != null) {
+            try {
+                if (bgmPlayer.isPlaying()) {
+                    bgmPlayer.stop();
+                }
+                bgmPlayer.release();
+            } catch (Exception ignored) {}
+            bgmPlayer = null;
+        }
     }
 
     @SuppressLint("SetTextI18n")

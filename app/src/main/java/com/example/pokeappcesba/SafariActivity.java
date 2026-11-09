@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SafariActivity extends AppCompatActivity {
 
     private PokeApiService apiService;
-    private ImageView btnBackSafari, ivWildSprite;
+    private ImageView btnBackSafari, ivWildSprite, ivThrownPokeball, ivCaughtPokeball;
     private TextView tvSafariCaught, tvSafariCoins, tvWildStatus, tvWildName;
     private Button btnPokeball, btnSuperball, btnUltraball, btnMasterball;
     private Button btnCatch, btnRun;
@@ -45,6 +45,7 @@ public class SafariActivity extends AppCompatActivity {
     private SharedPreferences prefsSafari;
     private SharedPreferences prefsGlobales;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer bgmPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,8 @@ public class SafariActivity extends AppCompatActivity {
 
         btnBackSafari = findViewById(R.id.btnBackSafari);
         ivWildSprite = findViewById(R.id.ivWildSprite);
+        ivThrownPokeball = findViewById(R.id.ivThrownPokeball);
+        ivCaughtPokeball = findViewById(R.id.ivCaughtPokeball);
         tvSafariCaught = findViewById(R.id.tvSafariCaught);
         tvSafariCoins = findViewById(R.id.tvSafariCoins);
         tvWildStatus = findViewById(R.id.tvWildStatus);
@@ -82,6 +85,7 @@ public class SafariActivity extends AppCompatActivity {
         btnRun = findViewById(R.id.btnRun);
 
         btnBackSafari.setOnClickListener(v -> finish());
+        tvSafariCaught.setOnClickListener(v -> showCaughtPokemon());
 
         btnPokeball.setOnClickListener(v -> selectBall(40, 0, btnPokeball));
         btnSuperball.setOnClickListener(v -> selectBall(65, 10, btnSuperball));
@@ -93,6 +97,7 @@ public class SafariActivity extends AppCompatActivity {
 
         updateUI();
         findWildPokemon();
+        iniciarMusicaBatalla();
     }
 
     @SuppressLint("SetTextI18n")
@@ -175,39 +180,140 @@ public class SafariActivity extends AppCompatActivity {
         btnRun.setEnabled(false);
         tvWildStatus.setText("Lanzando Pokéball... 🔴");
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            int roll = new Random().nextInt(100) + 1;
-            if (roll <= selectedBallRate) {
-                // Capturado!
-                caughtCount++;
-                prefsSafari.edit().putString(currentWild.name.toLowerCase(), currentWild.name.toUpperCase()).apply();
-                prefsGlobales.edit().putInt("safari_caught", caughtCount).apply();
-                safariCoins += 30; // Recompensa
-                updateUI();
+        // Configuración inicial de la Pokéball
+        ivThrownPokeball.setVisibility(android.view.View.VISIBLE);
+        ivCaughtPokeball.setVisibility(android.view.View.INVISIBLE);
+        ivThrownPokeball.setTranslationY(0f);
+        ivThrownPokeball.setRotation(0f);
+        ivThrownPokeball.setTranslationX(0f);
+        
+        // Efecto de sonido (opcional)
+        new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT, 150);
 
-                tvWildStatus.setText("🎉 ¡" + currentWild.name.toUpperCase() + " CAPTURADO!");
-                tvWildStatus.setTextColor(Color.parseColor("#4ADE80"));
-                new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_PROP_BEEP2, 250);
+        // a) y b) Anima ivThrownPokeball
+        ivThrownPokeball.animate()
+            .translationY(-400f) // Ajustar según el layout para que caiga sobre el pokemon
+            .rotation(360f)
+            .setDuration(600)
+            .setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator())
+            .withEndAction(() -> {
+                // c) Oculta al Pokémon salvaje y la bola que vuela, muestra la bola en el centro
+                ivWildSprite.setVisibility(android.view.View.INVISIBLE);
+                ivThrownPokeball.setVisibility(android.view.View.INVISIBLE);
+                ivCaughtPokeball.setVisibility(android.view.View.VISIBLE);
+                tvWildStatus.setText("Tic...");
+                
+                // d) Secuencia matemática de temblor
+                ivCaughtPokeball.animate().rotation(15f).setDuration(300).withEndAction(() -> {
+                    tvWildStatus.setText("Tic... Tac...");
+                    ivCaughtPokeball.animate().rotation(-15f).setDuration(300).withEndAction(() -> {
+                        tvWildStatus.setText("Tic... Tac... Tic...");
+                        ivCaughtPokeball.animate().rotation(15f).setDuration(300).withEndAction(() -> {
+                            ivCaughtPokeball.animate().rotation(0f).setDuration(150).withEndAction(() -> {
+                                
+                                // e) Decide la captura
+                                int roll = new Random().nextInt(100) + 1;
+                                if (roll <= selectedBallRate) {
+                                    // Capturado!
+                                    caughtCount++;
+                                    prefsSafari.edit().putString(currentWild.name.toLowerCase(), currentWild.name.toUpperCase()).apply();
+                                    prefsGlobales.edit().putInt("safari_caught", caughtCount).apply();
+                                    safariCoins += 30; // Recompensa
+                                    updateUI();
+                    
+                                    tvWildStatus.setText("🎉 ¡" + currentWild.name.toUpperCase() + " CAPTURADO!");
+                                    tvWildStatus.setTextColor(Color.parseColor("#4ADE80"));
+                                    new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_PROP_BEEP2, 250);
+                    
+                                    // Cambiar color de la ball para indicar captura
+                                    ivCaughtPokeball.setColorFilter(Color.parseColor("#80FF0000")); // Tinte rojizo/brillo
 
-                new Handler(Looper.getMainLooper()).postDelayed(this::findWildPokemon, 2000);
-            } else {
-                // Fallado
-                tvWildStatus.setText("❌ ¡El Pokémon se escapó de la Ball!");
-                tvWildStatus.setTextColor(Color.parseColor("#EF4444"));
+                                    // Limpiar y buscar el siguiente
+                                    isBusy = false;
+                                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                        ivCaughtPokeball.clearColorFilter();
+                                        ivCaughtPokeball.setVisibility(android.view.View.INVISIBLE);
+                                        ivWildSprite.setVisibility(android.view.View.VISIBLE);
+                                        findWildPokemon();
+                                    }, 2000);
+                                } else {
+                                    // Fallado (se rompe la bola)
+                                    ivCaughtPokeball.setVisibility(android.view.View.INVISIBLE);
+                                    ivWildSprite.setVisibility(android.view.View.VISIBLE);
+                                    System.out.println("❌ Falló la captura del Pokémon.");
+                                    
+                                    tvWildStatus.setText("❌ ¡El Pokémon se escapó de la Ball!");
+                                    tvWildStatus.setTextColor(Color.parseColor("#EF4444"));
+                    
+                                    // Chance de huir (30%)
+                                    if (new Random().nextInt(100) < 30) {
+                                        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                                            tvWildStatus.setText("💨 ¡" + currentWild.name.toUpperCase() + " ha huido!");
+                                            new Handler(Looper.getMainLooper()).postDelayed(this::findWildPokemon, 1500);
+                                        }, 1000);
+                                    } else {
+                                        btnCatch.setEnabled(true);
+                                        btnRun.setEnabled(true);
+                                        isBusy = false;
+                                    }
+                                }
+                            }).start();
+                        }).start();
+                    }).start();
+                }).start();
+            }).start();
+    }
 
-                // Chance de huir (30%)
-                if (new Random().nextInt(100) < 30) {
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        tvWildStatus.setText("💨 ¡" + currentWild.name.toUpperCase() + " ha huido!");
-                        new Handler(Looper.getMainLooper()).postDelayed(this::findWildPokemon, 1500);
-                    }, 1000);
-                } else {
-                    btnCatch.setEnabled(true);
-                    btnRun.setEnabled(true);
-                    isBusy = false;
+    private void showCaughtPokemon() {
+        if (isBusy) return;
+
+        java.util.Map<String, ?> todosLosCapturados = prefsSafari.getAll();
+
+        if (todosLosCapturados.isEmpty()) {
+            Toast.makeText(this, "Aún no has capturado a ningún Pokémon en el Safari", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        android.view.View dialogView = getLayoutInflater().inflate(R.layout.dialog_favoritos, null);
+        androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(this).setView(dialogView).create();
+        if(dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.TRANSPARENT));
+
+        android.widget.GridLayout llContainer = dialogView.findViewById(R.id.llFavoritosContainer);
+        
+        for (String nombrePokemon : todosLosCapturados.keySet()) {
+            android.view.View itemFav = getLayoutInflater().inflate(R.layout.item_favorito, llContainer, false);
+            ImageView ivPokemonFavo = itemFav.findViewById(R.id.ivPokemonFavo);
+            TextView tvPokemonNombreFavo = itemFav.findViewById(R.id.tvPokemonNombreFavo);
+            
+            tvPokemonNombreFavo.setText(nombrePokemon.toUpperCase());
+            
+            apiService.getPokemon(nombrePokemon.toLowerCase()).enqueue(new Callback<Pokemon>() {
+                @Override
+                public void onResponse(@NonNull Call<Pokemon> call, @NonNull Response<Pokemon> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String spriteUrl = "";
+                        if (response.body().sprites != null) {
+                            if (response.body().sprites.frontDefault != null) {
+                                spriteUrl = response.body().sprites.frontDefault;
+                            }
+                        }
+                        if (!spriteUrl.isEmpty()) {
+                            Glide.with(SafariActivity.this).load(spriteUrl).into(ivPokemonFavo);
+                        }
+                    }
                 }
-            }
-        }, 1200);
+                @Override
+                public void onFailure(@NonNull Call<Pokemon> call, @NonNull Throwable t) {}
+            });
+            
+            llContainer.addView(itemFav);
+        }
+
+        Button btnCerrar = dialogView.findViewById(R.id.btnCerrarDialog);
+        btnCerrar.setText("CERRAR SAFARI (CAPTURADOS: " + caughtCount + ")");
+        btnCerrar.setOnClickListener(v2 -> dialog.dismiss());
+        
+        dialog.show();
     }
 
     private void playCry(String url) {
@@ -230,11 +336,64 @@ public class SafariActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        detenerMusicaBatalla();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iniciarMusicaBatalla();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+        detenerMusicaBatalla();
         if (mediaPlayer != null) {
             try { if (mediaPlayer.isPlaying()) mediaPlayer.stop(); mediaPlayer.release(); } catch (Exception ignored) {}
             mediaPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detenerMusicaBatalla();
+    }
+
+    private void iniciarMusicaBatalla() {
+        SharedPreferences prefs = getSharedPreferences("PokePrefs", MODE_PRIVATE);
+        boolean soundEnabled = prefs.getBoolean("sound_enabled", true);
+        if (soundEnabled) {
+            try {
+                if (bgmPlayer == null) {
+                    int rawId = getResources().getIdentifier("bgm_wild_battle", "raw", getPackageName());
+                    if (rawId != 0) {
+                        bgmPlayer = MediaPlayer.create(this, rawId);
+                        if (bgmPlayer != null) {
+                            bgmPlayer.setLooping(true);
+                            bgmPlayer.setVolume(0.35f, 0.35f);
+                            bgmPlayer.start();
+                        }
+                    }
+                } else if (!bgmPlayer.isPlaying()) {
+                    bgmPlayer.start();
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void detenerMusicaBatalla() {
+        if (bgmPlayer != null) {
+            try {
+                if (bgmPlayer.isPlaying()) {
+                    bgmPlayer.stop();
+                }
+                bgmPlayer.release();
+            } catch (Exception ignored) {}
+            bgmPlayer = null;
         }
     }
 }

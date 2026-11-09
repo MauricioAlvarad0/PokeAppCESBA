@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +51,7 @@ public class FlappyPokemonActivity extends AppCompatActivity implements FlappyGa
     private String userUid = "default";
     private Pokemon currentFlyer;
     private CustomTarget<Bitmap> glideTarget;
+    private MediaPlayer bgmPlayer;
 
     // Flying Pokemon IDs: Charizard, Butterfree, Pidgeot, Fearow, Golbat, Aerodactyl, Articuno, Zapdos, Moltres, Dragonite, Crobat, Lugia, Ho-Oh, Rayquaza
     private final int[] flyingPokemonIds = {6, 12, 18, 22, 42, 142, 144, 145, 146, 149, 169, 249, 250, 384};
@@ -90,6 +92,65 @@ public class FlappyPokemonActivity extends AppCompatActivity implements FlappyGa
         btnStartFlappy.setOnClickListener(v -> startFlappy());
 
         loadRandomFlyer();
+        iniciarMusicaBatalla();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detenerMusicaBatalla();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iniciarMusicaBatalla();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        detenerMusicaBatalla();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detenerMusicaBatalla();
+    }
+
+    private void iniciarMusicaBatalla() {
+        SharedPreferences prefs = getSharedPreferences("PokePrefs", MODE_PRIVATE);
+        boolean soundEnabled = prefs.getBoolean("sound_enabled", true);
+        if (soundEnabled) {
+            try {
+                if (bgmPlayer == null) {
+                    int rawId = getResources().getIdentifier("bgm_wild_battle", "raw", getPackageName());
+                    if (rawId != 0) {
+                        bgmPlayer = MediaPlayer.create(this, rawId);
+                        if (bgmPlayer != null) {
+                            bgmPlayer.setLooping(true);
+                            bgmPlayer.setVolume(0.35f, 0.35f);
+                            bgmPlayer.start();
+                        }
+                    }
+                } else if (!bgmPlayer.isPlaying()) {
+                    bgmPlayer.start();
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void detenerMusicaBatalla() {
+        if (bgmPlayer != null) {
+            try {
+                if (bgmPlayer.isPlaying()) {
+                    bgmPlayer.stop();
+                }
+                bgmPlayer.release();
+            } catch (Exception ignored) {}
+            bgmPlayer = null;
+        }
     }
 
     private void loadRandomFlyer() {

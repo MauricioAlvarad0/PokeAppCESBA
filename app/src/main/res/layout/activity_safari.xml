@@ -72,7 +72,9 @@
             android:shadowDy="2"
             android:shadowRadius="3"
             android:textSize="14sp"
-            android:layout_marginEnd="4dp"/>
+            android:layout_marginEnd="4dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/tvSafariCoins"
@@ -96,7 +98,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/bg_dialog_game_over"
+        android:background="#B30F172A"
         android:padding="16dp"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/llSafariStats"
@@ -123,6 +125,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"/>
+            <ImageView
+                android:id="@+id/ivCaughtPokeball"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_pokeball_vector"
+                android:visibility="invisible" />
         </FrameLayout>
 
         <TextView
@@ -244,5 +253,16 @@
             android:textSize="16sp"
             android:layout_marginStart="4dp"/>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivThrownPokeball"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_pokeball_vector"
+        android:visibility="invisible"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toTopOf="@id/llBallSelector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
