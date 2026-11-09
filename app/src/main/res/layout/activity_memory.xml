@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_minigame_memory"
+    android:padding="16dp">
+
+    <!-- Overlay oscuro para contraste -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#330F172A" />
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/llHeaderMemory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/bg_dialog_game_over"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBackMemory"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#FFFFFF"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🧠 POKÉMEMORY 🧠"
+            android:textAlignment="center"
+            android:fontFamily="@font/pokemon_pixel"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FACC15"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3" />
+    </LinearLayout>
+
+    <!-- Stats Bar -->
+    <LinearLayout
+        android:id="@+id/llMemoryStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/llHeaderMemory">
+
+        <TextView
+            android:id="@+id/tvMemoryMoves"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_retro"
+            android:fontFamily="@font/pokemon_pixel"
+            android:padding="8dp"
+            android:text="MOVIMIENTOS: 0"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:layout_marginEnd="4dp"/>
+
+        <TextView
+            android:id="@+id/tvMemoryPairs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gold_frame"
+            android:fontFamily="@font/pokemon_pixel"
+            android:padding="8dp"
+            android:text="PAREJAS: 0/6"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:textSize="13sp"
+            android:layout_marginHorizontal="2dp"/>
+
+        <TextView
+            android:id="@+id/tvMemoryRecord"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_dialog_game_over"
+            android:fontFamily="@font/pokemon_pixel"
+            android:padding="8dp"
+            android:text="MEJOR: --"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:layout_marginStart="4dp"/>
+    </LinearLayout>
+
+    <!-- Cards Grid (4 columns, 3 rows = 12 cards) -->
+    <GridLayout
+        android:id="@+id/glMemoryGrid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:columnCount="3"
+        android:rowCount="4"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/llMemoryStats"
+        app:layout_constraintBottom_toTopOf="@id/btnRestartMemory">
+    </GridLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRestartMemory"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/btn_retro_red"
+        android:fontFamily="@font/pokemon_pixel"
+        android:text="🔄 NUEVA PARTIDA"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
