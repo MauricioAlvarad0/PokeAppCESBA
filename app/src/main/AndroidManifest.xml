@@ -40,5 +40,11 @@
 
         <activity android:name=".TowerActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
 
+        <activity android:name=".BattleVersusActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
+        <activity android:name=".WhosThatPokemonActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" android:windowSoftInputMode="adjustResize" />
+
+        <activity android:name=".FlappyPokemonActivity" android:exported="false" android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+
     </application>
 </manifest>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:padding="16dp">
+
+    <!-- Marco exterior de piedra/metal oxidado -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_dialog_game_over"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="22dp">
+
+        <!-- Adorno superior de calaveras -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pokemon_pixel"
+            android:text="💀 💀 💀"
+            android:textColor="#E2E8F0"
+            android:textSize="20sp" />
+
+        <!-- Título ¡GAME OVER! estilo Arcade -->
+        <TextView
+            android:id="@+id/tvGameOverTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/pokemon_pixel"
+            android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowDx="4"
+            android:shadowDy="4"
+            android:shadowRadius="2"
+            android:text="💀 ¡GAME OVER! 💀"
+            android:textColor="#FF5722"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <!-- Subtítulo blanco -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/pokemon_pixel"
+            android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="TU EQUIPO HA CAÍDO"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Descripción dinámica del nivel -->
+        <TextView
+            android:id="@+id/tvGameOverDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/pokemon_pixel"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="La campaña en la Torre CESBA\nha terminado. No pudiste\nsuperar el Nivel 1."
+            android:textColor="#CBD5E1"
+            android:textSize="15sp" />
+
+        <!-- Ícono central (Sprite del último Pokémon derrotado o Pokébola) -->
+        <FrameLayout
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginVertical="16dp"
+            android:background="@drawable/bg_input_retro"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/ivGameOverIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_torre_pokemon" />
+        </FrameLayout>
+
+        <!-- Botón Rojo: REINTENTAR -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRetryTower"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/btn_retro_red"
+            android:fontFamily="@font/pokemon_pixel"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="🔥 REINTENTAR 🔥"
+            android:textColor="#FACC15"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Botón Gris: SALIR AL MENÚ -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnExitTower"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_retro_gray"
+            android:fontFamily="@font/pokemon_pixel"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="🚪 SALIR AL MENÚ"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</FrameLayout>

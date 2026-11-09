@@ -46,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnMenuPokedex).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PokedexActivity.class)));
         findViewById(R.id.btnMenuEmulator).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BattleEmulatorActivity.class)));
         
-        setupMenuButton(R.id.btnMenuVersus, "Battle Versus");
+        findViewById(R.id.btnMenuVersus).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BattleVersusActivity.class)));
         findViewById(R.id.btnMenuTorre).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, TowerActivity.class)));
-        setupMenuButton(R.id.btnMenuQuienEs, "¿Quién es ese Pokémon?");
+        findViewById(R.id.btnMenuQuienEs).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, WhosThatPokemonActivity.class)));
+        findViewById(R.id.btnMenuFlappy).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, FlappyPokemonActivity.class)));
         setupMenuButton(R.id.btnMenuSafari, "Safari Pokémon");
         setupMenuButton(R.id.btnMenuMaestro, "Maestro de Tipos");
         setupMenuButton(R.id.btnMenuMemory, "PokéMemory");

@@ -266,7 +266,15 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- M. Configuración -->
+            <!-- M. Flappy Pokemon -->
+            <com.google.android.material.card.MaterialCardView android:id="@+id/btnMenuFlappy" android:layout_width="0dp" android:layout_height="115dp" android:layout_columnWeight="1" android:layout_margin="6dp" app:cardBackgroundColor="#2980B9" app:cardCornerRadius="16dp" app:strokeColor="#5DADE2" app:strokeWidth="4dp" app:cardElevation="6dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="vertical" android:background="?attr/selectableItemBackground">
+                    <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@android:drawable/ic_menu_send" android:layout_marginBottom="4dp" android:scaleType="fitCenter" app:tint="#FFFFFF" />
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="M. FLAPPY POKÉ" android:textColor="@color/white" android:textSize="11sp" android:textStyle="bold" android:textAlignment="center" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- N. Configuración -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnMenuConfiguracion"
                 android:layout_width="match_parent"
@@ -280,7 +288,7 @@
                 app:cardElevation="6dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center" android:orientation="horizontal" android:background="?attr/selectableItemBackground">
                     <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@android:drawable/ic_menu_preferences" app:tint="@color/white"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="16dp" android:text="M. CONFIGURACIÓN" android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginHorizontal="16dp" android:text="N. CONFIGURACIÓN" android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold" android:shadowColor="#000000" android:shadowDx="1" android:shadowDy="1" android:shadowRadius="2" android:fontFamily="@font/pokemon_pixel"/>
                     <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@android:drawable/ic_menu_preferences" app:tint="@color/white"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

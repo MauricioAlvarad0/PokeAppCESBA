@@ -50,6 +50,7 @@ public class BattleEmulatorActivity extends AppCompatActivity {
     private PokeApiService apiService;
     private Pokemon p1, p2;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer bgmPlayer;
     
     private int p1MaxHp, p2MaxHp;
     private int p1CurrentHp, p2CurrentHp;
@@ -66,7 +67,13 @@ public class BattleEmulatorActivity extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
         apiService = new Retrofit.Builder().baseUrl("https://pokeapi.co/api/v2/").addConverterFactory(GsonConverterFactory.create()).build().create(PokeApiService.class);
 
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        findViewById(R.id.btnBack).setOnClickListener(v -> mostrarConfirmacionSalida());
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                mostrarConfirmacionSalida();
+            }
+        });
 
         llSelection = findViewById(R.id.llSelection);
         clBattleArena = findViewById(R.id.clBattleArena);
@@ -90,6 +97,59 @@ public class BattleEmulatorActivity extends AppCompatActivity {
         setupPreviewListeners();
 
         btnPrepareBattle.setOnClickListener(v -> validateAndFetch());
+    }
+
+    private void mostrarConfirmacionSalida() {
+        if (llSelection.getVisibility() == View.VISIBLE || battleEnded) {
+            detenerTodoYSalir();
+        } else {
+            abrirDialogoRetro("⚠️ ¿ABANDONAR COMBATE?", 
+                "¿Estás seguro de que quieres abandonar el combate actual y volver al menú principal? Se perderá el progreso de esta pelea.", 
+                "🚪 SÍ, SALIR AL MENÚ", 
+                "⚔️ CONTINUAR PELEANDO", 
+                this::detenerTodoYSalir, 
+                null, 
+                0, null);
+        }
+    }
+
+    private void detenerTodoYSalir() {
+        battleEnded = true;
+        detenerMusicaBatalla();
+        if (ivP1Sprite != null) ivP1Sprite.animate().cancel();
+        if (ivP2Sprite != null) ivP2Sprite.animate().cancel();
+        
+        if (mediaPlayer != null) {
+            try {
+                if (mediaPlayer.isPlaying()) mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.release();
+            } catch (Exception ignored) {}
+            mediaPlayer = null;
+        }
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detenerMusicaBatalla();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        detenerMusicaBatalla();
+        if (isFinishing()) {
+            detenerTodoYSalir();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        detenerMusicaBatalla();
+        detenerTodoYSalir();
     }
 
     private void setupPreviewListeners() {
@@ -203,6 +263,8 @@ public class BattleEmulatorActivity extends AppCompatActivity {
 
         Glide.with(this).load(p1Sprite).into(ivP1Sprite);
         Glide.with(this).load(p2Sprite).into(ivP2Sprite);
+        
+        iniciarMusicaBatalla();
 
         startMatch();
     }
@@ -275,6 +337,9 @@ public class BattleEmulatorActivity extends AppCompatActivity {
             // Impacto
             defenderImg.setColorFilter(Color.parseColor("#80FF0000")); // Rojo transparente
             defenderImg.postDelayed(defenderImg::clearColorFilter, 250);
+            
+            // Efecto de sonido de impacto
+            new android.media.ToneGenerator(android.media.AudioManager.STREAM_MUSIC, 100).startTone(android.media.ToneGenerator.TONE_CDMA_ABBR_ALERT, 150);
 
             // Reducir HP
             if (isP1Turn) {
@@ -305,14 +370,6 @@ public class BattleEmulatorActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void reproducirSonido(String url) {
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.setDataSource(url);
-            mediaPlayer.prepareAsync();
-            mediaPlayer.setOnPreparedListener(MediaPlayer::start);
-        } catch (Exception e) { e.printStackTrace(); }
-    }
 
     private void updateHpBars() {
         pbP1Hp.setMax(p1MaxHp);
@@ -342,68 +399,39 @@ public class BattleEmulatorActivity extends AppCompatActivity {
     }
 
     private void showWinnerDialog(Pokemon winner, int hpLeft) {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_battle_winner, null);
-        Dialog dialog = new Dialog(this);
-        dialog.setContentView(dialogView);
-        if(dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-        }
-        dialog.setCancelable(false); // Fuerza a usar botones
-
-        TextView tvWinnerText = dialogView.findViewById(R.id.tvWinnerText);
-        TextView tvWinnerHp = dialogView.findViewById(R.id.tvWinnerHp);
-        TextView tvWinnerTurns = dialogView.findViewById(R.id.tvWinnerTurns);
-        TextView tvLastLog = dialogView.findViewById(R.id.tvLastLog);
-        ImageView ivWinner = dialogView.findViewById(R.id.ivWinner);
-        
-        tvWinnerText.setText(winner.name.toUpperCase());
-        int maxHp = winner == p1 ? p1MaxHp : p2MaxHp;
-        tvWinnerHp.setText("HP Restante: " + hpLeft + " / " + maxHp);
-        tvWinnerTurns.setText("Turnos Totales: " + turnNumber);
-        
-        // Obtener la última acción de la batalla para mostrarla en el log final
         String fullLog = battleLogBuilder.toString();
         String[] logs = fullLog.split("●");
+        String lastLog = "Batalla finalizada.";
         if(logs.length > 0) {
-            tvLastLog.setText("●" + logs[logs.length - 1].trim());
-        } else {
-            tvLastLog.setText(fullLog);
+            lastLog = "Último turno:\n●" + logs[logs.length - 1].trim();
         }
 
-        Glide.with(this).load(winner.sprites.frontDefault).into(ivWinner);
+        abrirDialogoRetro("🏆 ¡DUELO TERMINADO! 🏆", 
+            "¡" + winner.name.toUpperCase() + " ha ganado el combate!\nTurnos totales: " + turnNumber + "\n\n" + lastLog, 
+            "NUEVO COMBATE", 
+            "SALIR AL MENÚ", 
+            () -> {
+                clBattleArena.setVisibility(View.GONE);
+                llSelection.setVisibility(View.VISIBLE);
+                etP1.setText("");
+                etP2.setText("");
+                detenerMusicaBatalla();
+            }, 
+            () -> {
+                detenerMusicaBatalla();
+                finish();
+            }, 
+            0, 
+            winner);
+            
+        saveBattleHistory(winner.name.toUpperCase(), winner.name.equals(p1.name) ? p2.name.toUpperCase() : p1.name.toUpperCase());
+    }
 
-        dialogView.findViewById(R.id.btnViewLog).setOnClickListener(v -> {
-            dialog.dismiss();
-            Toast.makeText(this, "Registro de Batalla:", Toast.LENGTH_LONG).show();
-        });
-
-        dialogView.findViewById(R.id.btnRematch).setOnClickListener(v -> {
-            dialog.dismiss();
-            startMatch();
-        });
-
-        dialogView.findViewById(R.id.btnNewBattle).setOnClickListener(v -> {
-            dialog.dismiss();
-            clBattleArena.setVisibility(View.GONE);
-            llSelection.setVisibility(View.VISIBLE);
-            etP1.setText("");
-            etP2.setText("");
-        });
-
-        dialogView.findViewById(R.id.btnReturnMenu).setOnClickListener(v -> {
-            dialog.dismiss();
-            finish();
-        });
-
-        // Guardar resultado en el Historial global
+    private void saveBattleHistory(String winnerName, String loserName) {
         SharedPreferences prefsHistorial = getSharedPreferences("PokeHistorial", MODE_PRIVATE);
         String currentHistorial = prefsHistorial.getString("historial_batallas", "");
-        String newRecord = "⚔️ " + winner.name.toUpperCase() + " ganó en " + turnNumber + " turnos vs " + 
-                           (winner == p1 ? p2.name.toUpperCase() : p1.name.toUpperCase());
+        String newRecord = "⚔️ " + winnerName + " ganó en " + turnNumber + " turnos vs " + loserName;
         prefsHistorial.edit().putString("historial_batallas", currentHistorial + newRecord + "\n").apply();
-
-        dialog.show();
     }
 
     private int getStat(Pokemon p, String statName) {
@@ -414,5 +442,100 @@ public class BattleEmulatorActivity extends AppCompatActivity {
             }
         }
         return 50;
+    }
+
+    private void reproducirSonido(String url) {
+        try {
+            if (mediaPlayer != null) {
+                try {
+                    if (mediaPlayer.isPlaying()) mediaPlayer.stop();
+                } catch (Exception ignored) {}
+                mediaPlayer.release();
+            }
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioAttributes(new android.media.AudioAttributes.Builder()
+                    .setUsage(android.media.AudioAttributes.USAGE_GAME)
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build());
+            mediaPlayer.setDataSource(url);
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(mp -> {
+                if (!battleEnded && !isFinishing() && !isDestroyed()) mp.start();
+            });
+        } catch (Exception ignored) {}
+    }
+
+    private void iniciarMusicaBatalla() {
+        SharedPreferences prefs = getSharedPreferences("PokePrefs", MODE_PRIVATE);
+        boolean soundEnabled = prefs.getBoolean("sound_enabled", true);
+        if (soundEnabled) {
+            try {
+                if (bgmPlayer == null) {
+                    int rawId = getResources().getIdentifier("bgm_wild_battle", "raw", getPackageName());
+                    if (rawId != 0) {
+                        bgmPlayer = MediaPlayer.create(this, rawId);
+                        if (bgmPlayer != null) {
+                            bgmPlayer.setLooping(true);
+                            bgmPlayer.setVolume(0.35f, 0.35f);
+                            bgmPlayer.start();
+                        }
+                    }
+                } else if (!bgmPlayer.isPlaying()) {
+                    bgmPlayer.start();
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void detenerMusicaBatalla() {
+        if (bgmPlayer != null) {
+            try {
+                if (bgmPlayer.isPlaying()) {
+                    bgmPlayer.stop();
+                }
+                bgmPlayer.release();
+            } catch (Exception ignored) {}
+            bgmPlayer = null;
+        }
+    }
+
+    private void abrirDialogoRetro(String title, String message, String positiveText, String negativeText, Runnable onPositive, Runnable onNegative, int iconRes, Pokemon winnerPoke) {
+        android.app.Dialog dialog = new android.app.Dialog(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        dialog.setContentView(R.layout.dialog_retro_custom);
+        if (dialog.getWindow() != null) dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(Color.TRANSPARENT));
+
+        TextView tvTitle = dialog.findViewById(R.id.tvRetroDialogTitle);
+        TextView tvMsg = dialog.findViewById(R.id.tvRetroDialogMessage);
+        Button btnPos = dialog.findViewById(R.id.btnRetroPositive);
+        Button btnNeg = dialog.findViewById(R.id.btnRetroNegative);
+        ImageView ivIcon = dialog.findViewById(R.id.ivRetroDialogIcon);
+        View flIconCont = dialog.findViewById(R.id.flRetroDialogIconContainer);
+
+        tvTitle.setText(title);
+        tvMsg.setText(message);
+        btnPos.setText(positiveText);
+        btnPos.setOnClickListener(v -> {
+            dialog.dismiss();
+            if (onPositive != null) onPositive.run();
+        });
+
+        if (negativeText != null) {
+            btnNeg.setVisibility(View.VISIBLE);
+            btnNeg.setText(negativeText);
+            btnNeg.setOnClickListener(v -> {
+                dialog.dismiss();
+                if (onNegative != null) onNegative.run();
+            });
+        }
+
+        if (iconRes != 0) {
+            ivIcon.setImageResource(iconRes);
+        } else if (winnerPoke != null && winnerPoke.sprites != null && winnerPoke.sprites.frontDefault != null) {
+            Glide.with(this).load(winnerPoke.sprites.frontDefault).into(ivIcon);
+        } else {
+            flIconCont.setVisibility(View.GONE);
+        }
+
+        dialog.show();
     }
 }
